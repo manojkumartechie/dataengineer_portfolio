@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 import { FaPython, FaJava, FaAws, FaDocker, FaGithub, FaGitlab, FaLinux, FaWindows, FaGit, FaJenkins, FaBitbucket, FaTools } from 'react-icons/fa';
-import { SiApacheairflow, SiApachehadoop, SiApachekafka, SiApachespark, SiApacheflink, SiApachehive, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiElasticsearch, SiPrometheus, SiGrafana, SiTerraform, SiTableau, SiSnowflake, SiDbt, SiScala, SiRust, SiGo, SiMicrosoftazure, SiGooglecloud, SiKubernetes } from 'react-icons/si';
+import { SiApacheairflow, SiApachehadoop, SiApachekafka, SiApachespark, SiApacheflink, SiApachehive, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiElasticsearch, SiPrometheus, SiGrafana, SiTerraform, SiTableau, SiSnowflake, SiDbt, SiScala, SiRust, SiGo, SiAzure, SiGooglecloud, SiKubernetes } from 'react-icons/si';
 
 interface Skill {
   name: string;
@@ -78,7 +78,7 @@ export default function Skills({ categories }: SkillsProps) {
     { name: 'Linux', icon: FaLinux },
     { name: 'Windows', icon: FaWindows },
     { name: 'AWS', icon: FaAws },
-    { name: 'Azure', icon: SiMicrosoftazure },
+    { name: 'Azure', icon: SiAzure },
     { name: 'GCP', icon: SiGooglecloud },
     { name: 'MySQL', icon: SiMysql },
     { name: 'PostgreSQL', icon: SiPostgresql },
