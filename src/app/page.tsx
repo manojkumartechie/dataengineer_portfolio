@@ -70,11 +70,17 @@ export default function Home() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      gsap.to(window, {
-        duration: 1.5,
-        scrollTo: { y: element, offsetY: 80 },
-        ease: "power2.inOut"
-      });
+      if (gsap && gsap.to && gsap.plugins && gsap.plugins.scrollTo) {
+        gsap.to(window, {
+          duration: 1.5,
+          scrollTo: { y: element, offsetY: 80 },
+          ease: "power2.inOut"
+        });
+      } else {
+        // Fallback if GSAP scrollTo plugin is not available
+        const y = element.getBoundingClientRect().top + window.pageYOffset - 80;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     }
   };
 

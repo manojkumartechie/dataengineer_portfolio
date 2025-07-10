@@ -51,24 +51,28 @@ export default function Contact({ contactInfo }: ContactProps) {
   };
 
   useEffect(() => {
-    const cards = document.querySelectorAll('.contact-glass-card');
+    const cards = document.querySelectorAll('.glass-card');
     cards.forEach(card => {
-      gsap.fromTo(
-        card,
-        { y: 100, opacity: 0, rotateY: 0 },
-        {
-          y: -100,
-          opacity: 1,
-          rotateY: 45,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 80%",
-            end: "bottom 20%",
-            scrub: true,
-          },
+      // Remove scroll-triggered 3D reveal effect
+      // Only keep GSAP glassmorphism animation on hover
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, {
+          background: "rgba(255,255,255,0.25)",
+          boxShadow: "0 12px 40px 0 rgba(31,38,135,0.45)",
+          backdropFilter: "blur(16px)",
+          duration: 0.5,
           ease: "power2.out",
-        }
-      );
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          background: "rgba(255,255,255,0.15)",
+          boxShadow: "0 8px 32px 0 rgba(31,38,135,0.37)",
+          backdropFilter: "blur(8px)",
+          duration: 0.5,
+          ease: "power2.in",
+        });
+      });
     });
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -86,8 +90,8 @@ export default function Contact({ contactInfo }: ContactProps) {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="animate-slide-in-left glass-card p-8 contact-glass-card">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
+          <div className="animate-slide-in-left glass-card rounded-2xl p-4 sm:p-8 contact-glass-card w-full">
             <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-6">
               Let's work together
             </h3>
@@ -175,7 +179,7 @@ export default function Contact({ contactInfo }: ContactProps) {
             </div>
           </div>
           
-          <div className="animate-slide-in-right glass-card p-8 contact-glass-card">
+          <div className="animate-slide-in-right glass-card rounded-2xl p-4 sm:p-8 contact-glass-card w-full">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">

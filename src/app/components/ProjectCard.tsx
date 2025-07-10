@@ -75,7 +75,7 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
   return (
     <div
       ref={cardRef}
-      className="group glass-card overflow-hidden transition-all duration-300 hover:shadow-glow-lg"
+      className="group glass-card rounded-2xl w-full overflow-hidden transition-all duration-300 hover:shadow-glow-lg"
       style={{ animationDelay: `${index * 100}ms`, willChange: 'transform', cursor: 'pointer' }}
     >
       <div className="relative overflow-hidden">
@@ -113,14 +113,14 @@ export default function ProjectCard({ project, index }: ProjectCardProps) {
         </div>
       </div>
 
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
+      <div className="p-4 sm:p-6">
+        <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white mb-2 truncate">
           {project.title}
         </h3>
-        <p className="text-slate-600 dark:text-slate-300 mb-4">
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 mb-4 truncate">
           {project.description}
         </p>
-        <div className="flex flex-wrap gap-2 mb-4">
+        <div className="flex flex-wrap gap-1 sm:gap-2 mb-4">
           {project.tech.map((tech, techIndex) => (
             <span
               key={techIndex}

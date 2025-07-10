@@ -5,8 +5,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-import { FaPython, FaJava, FaAws, FaDocker, FaGithub, FaGitlab, FaLinux, FaWindows, FaGit, FaJenkins, FaBitbucket, FaTools } from 'react-icons/fa';
-import { SiApacheairflow, SiApachehadoop, SiApachekafka, SiApachespark, SiApacheflink, SiApachehive, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiElasticsearch, SiPrometheus, SiGrafana, SiTerraform, SiTableau, SiSnowflake, SiDbt, SiScala, SiRust, SiGo, SiAzure, SiGooglecloud, SiKubernetes } from 'react-icons/si';
+import { FaPython, FaJava, FaAws, FaDocker, FaGithub, FaGitlab, FaLinux, FaWindows, FaGit, FaJenkins, FaBitbucket, FaTools, FaMicrosoft } from 'react-icons/fa';
+import { SiApacheairflow, SiApachehadoop, SiApachekafka, SiApachespark, SiApacheflink, SiApachehive, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiElasticsearch, SiPrometheus, SiGrafana, SiTerraform, SiTableau, SiSnowflake, SiDbt, SiScala, SiRust, SiGo, SiGooglecloud, SiKubernetes } from 'react-icons/si';
 
 interface Skill {
   name: string;
@@ -26,24 +26,28 @@ interface SkillsProps {
 
 export default function Skills({ categories }: SkillsProps) {
   useEffect(() => {
-    const cards = document.querySelectorAll('.skill-category-card');
+    const cards = document.querySelectorAll('.glass-card');
     cards.forEach(card => {
-      gsap.fromTo(
-        card,
-        { y: 100, opacity: 0, rotateY: 0 },
-        {
-          y: -100,
-          opacity: 1,
-          rotateY: 45,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 80%",
-            end: "bottom 20%",
-            scrub: true,
-          },
+      // Remove scroll-triggered 3D reveal effect
+      // Only keep GSAP glassmorphism animation on hover
+      card.addEventListener("mouseenter", () => {
+        gsap.to(card, {
+          background: "rgba(255,255,255,0.25)",
+          boxShadow: "0 12px 40px 0 rgba(31,38,135,0.45)",
+          backdropFilter: "blur(16px)",
+          duration: 0.5,
           ease: "power2.out",
-        }
-      );
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          background: "rgba(255,255,255,0.15)",
+          boxShadow: "0 8px 32px 0 rgba(31,38,135,0.37)",
+          backdropFilter: "blur(8px)",
+          duration: 0.5,
+          ease: "power2.in",
+        });
+      });
     });
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
@@ -78,7 +82,7 @@ export default function Skills({ categories }: SkillsProps) {
     { name: 'Linux', icon: FaLinux },
     { name: 'Windows', icon: FaWindows },
     { name: 'AWS', icon: FaAws },
-    { name: 'Azure', icon: SiAzure },
+    { name: 'Azure', icon: FaMicrosoft },
     { name: 'GCP', icon: SiGooglecloud },
     { name: 'MySQL', icon: SiMysql },
     { name: 'PostgreSQL', icon: SiPostgresql },
@@ -102,11 +106,11 @@ export default function Skills({ categories }: SkillsProps) {
             I've worked with a variety of big data technologies and tools to build scalable data infrastructure and pipelines.
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-10 sm:mb-20">
           {categories.map((category, index) => (
             <div 
               key={index} 
-              className="glass-card rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 skill-category-card"
+              className="glass-card rounded-2xl p-4 sm:p-6 w-full hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 skill-category-card"
             >
               <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 text-center">
                 {category.category}
@@ -129,11 +133,11 @@ export default function Skills({ categories }: SkillsProps) {
           <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 text-center">
             Technologies
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
             {technologies.map((tech, index) => {
               const Icon = tech.icon && typeof tech.icon === 'function' ? tech.icon : FaTools;
               return (
-                <div key={index} className="glass-card p-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center">
+                <div key={index} className="glass-card rounded-2xl p-2 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center w-full min-h-[80px] min-w-[44px]">
                   <Icon className="text-3xl mx-auto" />
                   <span className="text-slate-700 dark:text-slate-300 font-medium text-sm mt-2">
                     {tech.name}
@@ -153,7 +157,7 @@ export default function Skills({ categories }: SkillsProps) {
             {tools.map((tool, index) => {
               const Icon = tool.icon && typeof tool.icon === 'function' ? tool.icon : FaTools;
               return (
-                <div key={index} className="glass-card p-4 rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center">
+                <div key={index} className="glass-card rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center">
                   <Icon className="text-3xl mx-auto" />
                   <span className="text-slate-700 dark:text-slate-300 font-medium text-sm mt-2">
                     {tool.name}

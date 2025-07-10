@@ -9,65 +9,48 @@ interface HeroProps {
 
 export default function Hero({ scrollToSection }: HeroProps) {
   const profileRef = useRef<HTMLDivElement>(null);
+  const sweepRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (profileRef.current) {
-      gsap.fromTo(
-        profileRef.current,
-        {
-          opacity: 0,
-          scale: 0.5,
-          rotateY: 90,
-          rotateX: 30,
-          transformPerspective: 800,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotateY: 0,
-          rotateX: 0,
-          duration: 1.2,
-          ease: "power3.out",
-        }
-      );
-    }
+    // Remove GSAP animation for hero title
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden px-2 sm:px-4">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-800 dark:to-slate-900"></div>
       
       {/* Animated background elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 animate-pulse"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-indigo-200 dark:bg-indigo-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-purple-200 dark:bg-purple-800 rounded-full opacity-20 animate-pulse delay-500"></div>
+      <div className="absolute top-20 left-4 w-14 h-14 sm:w-20 sm:h-20 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 animate-pulse"></div>
+      <div className="absolute bottom-20 right-4 w-20 h-20 sm:w-32 sm:h-32 bg-indigo-200 dark:bg-indigo-800 rounded-full opacity-20 animate-pulse delay-1000"></div>
+      <div className="absolute top-1/2 left-1/4 w-10 h-10 sm:w-16 sm:h-16 bg-purple-200 dark:bg-purple-800 rounded-full opacity-20 animate-pulse delay-500"></div>
       
-      <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 text-center max-w-4xl mx-auto px-2 sm:px-4 lg:px-8">
         <div className="animate-fade-in-up">
           
-          <h1 className="text-5xl md:text-7xl font-bold text-slate-800 dark:text-white mb-6">
-            Hi, I'm <span className="text-blue-600 dark:text-blue-400">Manoj Kumar</span>
+          <h1 className="hero-title text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold text-slate-800 dark:text-white mb-4 sm:mb-6 relative inline-block overflow-hidden">
+            Hi, I'm <span className="highlight text-blue-600 dark:text-blue-400 relative z-10">Manoj Kumar</span>
+            <span ref={sweepRef} className="light-sweep absolute left-0 top-0 w-1/3 h-full bg-gradient-to-r from-white/80 to-transparent pointer-events-none" style={{transform: 'translateX(-120%)', filter: 'blur(8px)', zIndex: 20}}></span>
           </h1>
           
-          <div className="text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-4">
+          <div className="text-lg xs:text-xl md:text-2xl text-slate-600 dark:text-slate-300 mb-3 sm:mb-4">
             <span className="inline-block animate-bounce">📊</span> Data Engineer
           </div>
           
-          <p className="text-lg text-slate-500 dark:text-slate-400 mb-12 max-w-2xl mx-auto">
+          <p className="text-base xs:text-lg text-slate-500 dark:text-slate-400 mb-8 sm:mb-12 max-w-2xl mx-auto">
             I build scalable data pipelines, design efficient data architectures, and transform raw data into actionable insights. 
             Passionate about big data technologies and cloud-native solutions.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-6 sm:mb-8">
             <button
               onClick={() => scrollToSection('projects')}
-              className="glass-btn"
+              className="glass-btn min-h-[44px] min-w-[44px]"
             >
               View My Work
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="glass-btn"
+              className="glass-btn min-h-[44px] min-w-[44px]"
             >
               Get In Touch
             </button>

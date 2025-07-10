@@ -10,21 +10,10 @@ export default function AnimatedBackground() {
     const bg = bgRef.current;
     if (!bg) return;
 
-    // Create animated gradient
+    // Animate gradient: forward (45deg) to backward (135deg) and back, smoothly
     const tl = gsap.timeline({ repeat: -1, yoyo: true });
-    
     tl.to(bg, {
-      background: 'linear-gradient(45deg, #667eea 0%, #764ba2 100%)',
-      duration: 4,
-      ease: "power2.inOut"
-    })
-    .to(bg, {
       background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      duration: 4,
-      ease: "power2.inOut"
-    })
-    .to(bg, {
-      background: 'linear-gradient(225deg, #4facfe 0%, #00f2fe 100%)',
       duration: 4,
       ease: "power2.inOut"
     });
