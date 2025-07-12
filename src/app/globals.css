@@ -333,6 +333,39 @@ a:focus {
   }
 }
 
+/* 3D Logo Effects */
+.logo-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.logo-3d:hover {
+  transform: rotateY(15deg) rotateX(10deg) scale(1.1);
+}
+
+.logo-3d svg {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  transition: all 0.3s ease;
+}
+
+.logo-3d:hover svg {
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+/* Custom animation for slow spinning gear */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
 /* Better spacing for mobile */
 @media (max-width: 640px) {
   .glass-card {
