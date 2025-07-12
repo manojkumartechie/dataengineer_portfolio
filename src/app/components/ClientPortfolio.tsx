@@ -45,12 +45,18 @@ interface ContactInfo {
 }
 
 interface ClientPortfolioProps {
-  projects: Project[];
-  skillCategories: SkillCategory[];
-  contactInfo: ContactInfo;
+  data: {
+    projects: Project[];
+    skillCategories: SkillCategory[];
+    contactInfo: ContactInfo;
+  };
 }
 
-export default function ClientPortfolio({ projects, skillCategories, contactInfo }: ClientPortfolioProps) {
+export default function ClientPortfolio({ data }: ClientPortfolioProps) {
+  if (!data) return <div>No data available.</div>;
+
+  const { projects = [], skillCategories = [], contactInfo = {} } = data;
+
   const [activeSection, setActiveSection] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
