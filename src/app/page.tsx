@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import AdvancedNavigation from './components/AdvancedNavigation';
 import AdvancedHero from './components/AdvancedHero';
 import AdvancedProjectCard from './components/AdvancedProjectCard';
@@ -15,7 +15,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-export default function Home() {
+function HomeContent() {
   const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
@@ -341,5 +341,15 @@ export default function Home() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="text-white text-xl">Loading...</div>
+    </div>}>
+      <HomeContent />
+    </Suspense>
   );
 }

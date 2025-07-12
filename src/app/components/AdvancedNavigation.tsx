@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { Home, User, Briefcase, Zap, Mail, Menu, X } from 'lucide-react';
 import gsap from 'gsap';
 
 interface NavigationProps {
@@ -68,11 +69,11 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
   }, []);
 
   const menuItems = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'about', label: 'About', icon: '👨‍💻' },
-    { id: 'projects', label: 'Projects', icon: '🚀' },
-    { id: 'skills', label: 'Skills', icon: '⚡' },
-    { id: 'contact', label: 'Contact', icon: '📧' }
+    { id: 'home', label: 'Home', icon: Home },
+    { id: 'about', label: 'About', icon: User },
+    { id: 'projects', label: 'Projects', icon: Briefcase },
+    { id: 'skills', label: 'Skills', icon: Zap },
+    { id: 'contact', label: 'Contact', icon: Mail }
   ];
 
   const handleMenuClick = (sectionId: string) => {
@@ -124,14 +125,14 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="text-xl font-bold text-white flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold">M</span>
             </div>
-            <span>Portfolio</span>
+            <span className="hidden sm:inline">Portfolio</span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-1">
+          <div className="hidden lg:flex space-x-1">
             {menuItems.map((item, index) => (
               <button
                 key={item.id}
@@ -157,7 +158,7 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
                   });
                 }}
               >
-                <span>{item.icon}</span>
+                <item.icon className="w-4 h-4" />
                 <span>{item.label}</span>
                 {activeSection === item.id && (
                   <div className="absolute bottom-0 left-1/2 w-1 h-1 bg-blue-400 rounded-full transform -translate-x-1/2" />
@@ -168,37 +169,27 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200"
+            className="lg:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center"
             onClick={toggleMenu}
           >
-            <div className="w-6 h-6 relative">
-              <span className={`absolute block w-full h-0.5 bg-current transform transition-all duration-300 ${
-                isMenuOpen ? 'rotate-45 top-3' : 'top-1'
-              }`} />
-              <span className={`absolute block w-full h-0.5 bg-current transform transition-all duration-300 ${
-                isMenuOpen ? 'opacity-0' : 'top-3'
-              }`} />
-              <span className={`absolute block w-full h-0.5 bg-current transform transition-all duration-300 ${
-                isMenuOpen ? '-rotate-45 top-3' : 'top-5'
-              }`} />
-            </div>
+            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 
         {/* Mobile Navigation Menu */}
-        <div className={`md:hidden mobile-menu ${isMenuOpen ? 'block' : 'hidden'} opacity-0 -translate-y-4`}>
-          <div className="px-2 pt-2 pb-3 space-y-1 glass-card border-t border-white/10 mt-2 rounded-lg">
+        <div className={`lg:hidden mobile-menu ${isMenuOpen ? 'block' : 'hidden'} opacity-0 -translate-y-4`}>
+          <div className="px-2 pt-2 pb-3 space-y-2 glass-card border-t border-white/10 mt-2 rounded-lg">
             {menuItems.map((item, index) => (
               <button
                 key={item.id}
                 onClick={() => handleMenuClick(item.id)}
-                className={`mobile-menu-item block w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center space-x-3 ${
+                className={`mobile-menu-item block w-full text-left px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 flex items-center space-x-3 min-h-[44px] ${
                   activeSection === item.id
                     ? 'text-blue-400 bg-blue-400/10'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <span>{item.icon}</span>
+                <item.icon className="w-5 h-5" />
                 <span>{item.label}</span>
               </button>
             ))}

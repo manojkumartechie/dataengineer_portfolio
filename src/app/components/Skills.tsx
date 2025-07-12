@@ -3,10 +3,20 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { 
+  Database, 
+  Cloud, 
+  Code, 
+  BarChart3, 
+  Server, 
+  GitBranch,
+  Monitor,
+  Cpu,
+  HardDrive,
+  Zap
+} from 'lucide-react';
 gsap.registerPlugin(ScrollTrigger);
 
-import { FaPython, FaJava, FaAws, FaDocker, FaGithub, FaGitlab, FaLinux, FaWindows, FaGit, FaJenkins, FaBitbucket, FaTools, FaMicrosoft } from 'react-icons/fa';
-import { SiApacheairflow, SiApachehadoop, SiApachekafka, SiApachespark, SiApacheflink, SiApachehive, SiMongodb, SiPostgresql, SiMysql, SiRedis, SiElasticsearch, SiPrometheus, SiGrafana, SiTerraform, SiTableau, SiSnowflake, SiDbt, SiScala, SiRust, SiGo, SiGooglecloud, SiKubernetes } from 'react-icons/si';
 
 interface Skill {
   name: string;
@@ -56,43 +66,43 @@ export default function Skills({ categories }: SkillsProps) {
 
   // Split tools and technologies
   const technologies = [
-    { name: 'Spark', icon: SiApachespark },
-    { name: 'Kafka', icon: SiApachekafka },
-    { name: 'Flink', icon: SiApacheflink },
-    { name: 'Hadoop', icon: SiApachehadoop },
-    { name: 'Hive', icon: SiApachehive },
-    { name: 'Airflow', icon: SiApacheairflow },
-    { name: 'Snowflake', icon: SiSnowflake },
-    { name: 'dbt', icon: SiDbt },
-    { name: 'Tableau', icon: SiTableau },
-    { name: 'Elasticsearch', icon: SiElasticsearch },
-    { name: 'Prometheus', icon: SiPrometheus },
-    { name: 'Grafana', icon: SiGrafana },
-    { name: 'Terraform', icon: SiTerraform },
+    { name: 'Apache Spark', icon: Zap },
+    { name: 'Apache Kafka', icon: Server },
+    { name: 'Apache Flink', icon: Cpu },
+    { name: 'Hadoop', icon: Database },
+    { name: 'Apache Hive', icon: HardDrive },
+    { name: 'Apache Airflow', icon: GitBranch },
+    { name: 'Snowflake', icon: Cloud },
+    { name: 'dbt', icon: Code },
+    { name: 'Tableau', icon: BarChart3 },
+    { name: 'Elasticsearch', icon: Database },
+    { name: 'Prometheus', icon: Monitor },
+    { name: 'Grafana', icon: BarChart3 },
+    { name: 'Terraform', icon: Cloud },
   ];
 
   const tools = [
-    { name: 'Git', icon: FaGit },
-    { name: 'GitHub', icon: FaGithub },
-    { name: 'GitLab', icon: FaGitlab },
-    { name: 'Bitbucket', icon: FaBitbucket },
-    { name: 'Jenkins', icon: FaJenkins },
-    { name: 'Docker', icon: FaDocker },
-    { name: 'Kubernetes', icon: SiKubernetes },
-    { name: 'Linux', icon: FaLinux },
-    { name: 'Windows', icon: FaWindows },
-    { name: 'AWS', icon: FaAws },
-    { name: 'Azure', icon: FaMicrosoft },
-    { name: 'GCP', icon: SiGooglecloud },
-    { name: 'MySQL', icon: SiMysql },
-    { name: 'PostgreSQL', icon: SiPostgresql },
-    { name: 'MongoDB', icon: SiMongodb },
-    { name: 'Redis', icon: SiRedis },
-    { name: 'Python', icon: FaPython },
-    { name: 'Java', icon: FaJava },
-    { name: 'Scala', icon: SiScala },
-    { name: 'Rust', icon: SiRust },
-    { name: 'Go', icon: SiGo },
+    { name: 'Git', icon: GitBranch },
+    { name: 'GitHub', icon: GitBranch },
+    { name: 'GitLab', icon: GitBranch },
+    { name: 'Bitbucket', icon: GitBranch },
+    { name: 'Jenkins', icon: Server },
+    { name: 'Docker', icon: Server },
+    { name: 'Kubernetes', icon: Cloud },
+    { name: 'Linux', icon: Monitor },
+    { name: 'Windows', icon: Monitor },
+    { name: 'AWS', icon: Cloud },
+    { name: 'Azure', icon: Cloud },
+    { name: 'GCP', icon: Cloud },
+    { name: 'MySQL', icon: Database },
+    { name: 'PostgreSQL', icon: Database },
+    { name: 'MongoDB', icon: Database },
+    { name: 'Redis', icon: HardDrive },
+    { name: 'Python', icon: Code },
+    { name: 'Java', icon: Code },
+    { name: 'Scala', icon: Code },
+    { name: 'Rust', icon: Code },
+    { name: 'Go', icon: Code },
   ];
 
   return (
@@ -110,16 +120,16 @@ export default function Skills({ categories }: SkillsProps) {
           {categories.map((category, index) => (
             <div 
               key={index} 
-              className="glass-card rounded-2xl p-4 sm:p-6 w-full hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 skill-category-card"
+              className="glass-card rounded-2xl p-4 sm:p-6 w-full hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 skill-category-card min-h-[200px]"
             >
-              <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-6 text-center">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800 dark:text-white mb-4 sm:mb-6 text-center">
                 {category.category}
               </h3>
-              <div className="space-y-4">
+              <div className="space-y-2 sm:space-y-4">
                 {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="space-y-2">
+                  <div key={skillIndex} className="space-y-1 sm:space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-slate-600 dark:text-slate-300 font-medium">{skill.name}</span>
+                      <span className="text-sm sm:text-base text-slate-600 dark:text-slate-300 font-medium">{skill.name}</span>
                     </div>
                   </div>
                 ))}
@@ -130,16 +140,16 @@ export default function Skills({ categories }: SkillsProps) {
 
         {/* Technologies Section */}
         <div className="mb-20">
-          <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 text-center">
+          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white mb-6 sm:mb-8 text-center">
             Technologies
           </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
             {technologies.map((tech, index) => {
-              const Icon = tech.icon && typeof tech.icon === 'function' ? tech.icon : FaTools;
+              const Icon = tech.icon;
               return (
-                <div key={index} className="glass-card rounded-2xl p-2 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center w-full min-h-[80px] min-w-[44px]">
-                  <Icon className="text-3xl mx-auto" />
-                  <span className="text-slate-700 dark:text-slate-300 font-medium text-sm mt-2">
+                <div key={index} className="glass-card rounded-xl p-3 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center w-full min-h-[100px] sm:min-h-[120px]">
+                  <Icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-slate-600 dark:text-slate-300" />
+                  <span className="text-slate-700 dark:text-slate-300 font-medium text-xs sm:text-sm leading-tight">
                     {tech.name}
                   </span>
                 </div>
@@ -150,16 +160,16 @@ export default function Skills({ categories }: SkillsProps) {
 
         {/* Tools Section */}
         <div>
-          <h3 className="text-2xl font-bold text-slate-800 dark:text-white mb-8 text-center">
+          <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white mb-6 sm:mb-8 text-center">
             Tools
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
             {tools.map((tool, index) => {
-              const Icon = tool.icon && typeof tool.icon === 'function' ? tool.icon : FaTools;
+              const Icon = tool.icon;
               return (
-                <div key={index} className="glass-card rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center">
-                  <Icon className="text-3xl mx-auto" />
-                  <span className="text-slate-700 dark:text-slate-300 font-medium text-sm mt-2">
+                <div key={index} className="glass-card rounded-xl p-3 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
+                  <Icon className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-slate-600 dark:text-slate-300" />
+                  <span className="text-slate-700 dark:text-slate-300 font-medium text-xs sm:text-sm leading-tight">
                     {tool.name}
                   </span>
                 </div>

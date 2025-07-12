@@ -175,6 +175,44 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
+/* Additional responsive utilities */
+@media (max-width: 480px) {
+  .xs\:text-sm { font-size: 0.875rem; }
+  .xs\:text-base { font-size: 1rem; }
+  .xs\:text-lg { font-size: 1.125rem; }
+  .xs\:text-xl { font-size: 1.25rem; }
+  .xs\:text-2xl { font-size: 1.5rem; }
+  .xs\:text-3xl { font-size: 1.875rem; }
+  .xs\:text-4xl { font-size: 2.25rem; }
+}
+
+/* Ensure minimum touch target sizes */
+button, a, input, textarea, select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Improve text readability */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .glass-card {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .text-slate-600 {
+    color: #1e293b;
+  }
+  
+  .dark .text-slate-600 {
+    color: #e2e8f0;
+  }
+}
+
 /* Text gradient effects */
 .text-gradient {
   background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);

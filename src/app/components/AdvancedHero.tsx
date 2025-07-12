@@ -39,7 +39,7 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 pointer-events-none">
         <h1 
           ref={titleRef}
-          className="text-4xl sm:text-6xl md:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight drop-shadow-lg"
+          className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 sm:mb-6 leading-tight drop-shadow-lg"
         >
           Hi, I'm{' '}
           <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
@@ -48,14 +48,14 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
         </h1>
         <div 
           ref={subtitleRef}
-          className="text-xl sm:text-2xl md:text-3xl text-blue-300 mb-4 sm:mb-6 flex items-center justify-center space-x-3 drop-shadow"
+          className="text-lg xs:text-xl sm:text-2xl md:text-3xl text-blue-300 mb-4 sm:mb-6 flex items-center justify-center space-x-2 sm:space-x-3 drop-shadow"
         >
           <span className="animate-pulse">📊</span>
           <span>Data Engineer & Analytics Expert</span>
         </div>
         <p 
           ref={descriptionRef}
-          className="text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow"
+          className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-300 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow px-4"
         >
           I architect scalable data pipelines, design efficient data infrastructures, 
           and transform complex datasets into actionable business insights. Passionate 
@@ -63,11 +63,11 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
         </p>
         <div 
           ref={buttonsRef}
-          className="flex flex-col sm:flex-row gap-4 justify-center pointer-events-auto"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pointer-events-auto px-4"
         >
           <button
             onClick={() => scrollToSection('projects')}
-            className="group relative px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+            className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl min-h-[44px] text-sm sm:text-base"
             onMouseEnter={(e) => {
               gsap.to(e.currentTarget, {
                 boxShadow: '0 20px 40px rgba(59, 130, 246, 0.4)',
@@ -86,7 +86,7 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
           </button>
           <button
             onClick={() => scrollToSection('contact')}
-            className="group px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105"
+            className="group px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/30 text-white font-semibold rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105 min-h-[44px] text-sm sm:text-base"
             onMouseEnter={(e) => {
               gsap.to(e.currentTarget, {
                 borderColor: 'rgba(59, 130, 246, 0.8)',
