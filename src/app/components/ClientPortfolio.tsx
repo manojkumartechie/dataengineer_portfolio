@@ -271,8 +271,6 @@ export default function ClientPortfolio({ projects, skillCategories, contactInfo
                 <AdvancedProjectCard key={index} project={project} index={index} />
               ))}
             </div>
-
-
           </div>
         </section>
 
