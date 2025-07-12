@@ -1,12 +1,5 @@
 // Server Component - handles data and passes to client
-import dynamic from 'next/dynamic';
-import LoadingSpinner from './components/LoadingSpinner';
-
-// Dynamically import ClientPortfolio with SSR disabled to avoid server-side issues
-const ClientPortfolio = dynamic(() => import('./components/ClientPortfolio'), {
-  ssr: false,
-  loading: () => <LoadingSpinner />
-});
+import ClientPortfolioWrapper from './components/ClientPortfolioWrapper';
 
 // Server-side data - this would typically come from a database or API
 async function getPortfolioData() {
@@ -128,8 +121,11 @@ async function getPortfolioData() {
   };
 }
 
-export default async function Home() {
-  const portfolioData = await getPortfolioData();
-  
-  return <ClientPortfolio {...portfolioData} />;
+export default async function Page() {
+  const data = await getPortfolioData();
+  return (
+    <main>
+      <ClientPortfolioWrapper data={data} />
+    </main>
+  );
 }

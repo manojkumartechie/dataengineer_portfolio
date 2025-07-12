@@ -17,7 +17,11 @@ export const metadata: Metadata = {
   description: "Professional portfolio showcasing data engineering skills, big data technologies, and scalable data infrastructure projects",
   keywords: "data engineer, big data, apache spark, kafka, data pipelines, cloud computing, analytics",
   authors: [{ name: "Manoj Kumar" }],
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -28,7 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Professional portfolio showcasing data engineering skills, projects, and experience" />
         <meta name="theme-color" content="#0f172a" />
       </head>
