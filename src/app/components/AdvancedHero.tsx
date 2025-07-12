@@ -1,16 +1,18 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ThreeScene from './ThreeScene';
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface HeroProps {
   scrollToSection: (sectionId: string) => void;
 }
 
-export default function AdvancedHero({ scrollToSection }: HeroProps) {
+// Memoized component to prevent unnecessary re-renders
+const AdvancedHero = memo(function AdvancedHero({ scrollToSection }: HeroProps) {
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
@@ -18,8 +20,75 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
   const buttonsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Remove all GSAP and ScrollTrigger animation for hero title, subtitle, and description
+    // Optimized entrance animations
+    const tl = gsap.timeline({ delay: 0.5 });
+    
+    if (titleRef.current) {
+      tl.fromTo(titleRef.current,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: "power2.out" }
+      );
+    }
+    
+    if (subtitleRef.current) {
+      tl.fromTo(subtitleRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+        "-=0.5"
+      );
+    }
+    
+    if (descriptionRef.current) {
+      tl.fromTo(descriptionRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+        "-=0.4"
+      );
+    }
+    
+    if (buttonsRef.current) {
+      tl.fromTo(buttonsRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+        "-=0.3"
+      );
+    }
+
+    return () => {
+      tl.kill();
+    };
   }, []);
+
+  // Memoized button handlers
+  const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>, effect: 'glow' | 'border') => {
+    if (effect === 'glow') {
+      gsap.to(e.currentTarget, {
+        boxShadow: '0 20px 40px rgba(59, 130, 246, 0.4)',
+        duration: 0.3
+      });
+    } else {
+      gsap.to(e.currentTarget, {
+        borderColor: 'rgba(59, 130, 246, 0.8)',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        duration: 0.3
+      });
+    }
+  };
+
+  const handleButtonLeave = (e: React.MouseEvent<HTMLButtonElement>, effect: 'glow' | 'border') => {
+    if (effect === 'glow') {
+      gsap.to(e.currentTarget, {
+        boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
+        duration: 0.3
+      });
+    } else {
+      gsap.to(e.currentTarget, {
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        backgroundColor: 'transparent',
+        duration: 0.3
+      });
+    }
+  };
 
   return (
     <section 
@@ -68,18 +137,9 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
           <button
             onClick={() => scrollToSection('projects')}
             className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-2xl min-h-[44px] text-sm sm:text-base"
-            onMouseEnter={(e) => {
-              gsap.to(e.currentTarget, {
-                boxShadow: '0 20px 40px rgba(59, 130, 246, 0.4)',
-                duration: 0.3
-              });
-            }}
-            onMouseLeave={(e) => {
-              gsap.to(e.currentTarget, {
-                boxShadow: '0 10px 20px rgba(0, 0, 0, 0.2)',
-                duration: 0.3
-              });
-            }}
+            onMouseEnter={(e) => handleButtonHover(e, 'glow')}
+            onMouseLeave={(e) => handleButtonLeave(e, 'glow')}
+            aria-label="Explore my data engineering projects"
           >
             <span className="relative z-10">Explore My Work</span>
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -87,20 +147,9 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
           <button
             onClick={() => scrollToSection('contact')}
             className="group px-6 sm:px-8 py-3 sm:py-4 border-2 border-white/30 text-white font-semibold rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:scale-105 min-h-[44px] text-sm sm:text-base"
-            onMouseEnter={(e) => {
-              gsap.to(e.currentTarget, {
-                borderColor: 'rgba(59, 130, 246, 0.8)',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                duration: 0.3
-              });
-            }}
-            onMouseLeave={(e) => {
-              gsap.to(e.currentTarget, {
-                borderColor: 'rgba(255, 255, 255, 0.3)',
-                backgroundColor: 'transparent',
-                duration: 0.3
-              });
-            }}
+            onMouseEnter={(e) => handleButtonHover(e, 'border')}
+            onMouseLeave={(e) => handleButtonLeave(e, 'border')}
+            aria-label="Get in touch with me"
           >
             Let's Connect
           </button>
@@ -108,4 +157,6 @@ export default function AdvancedHero({ scrollToSection }: HeroProps) {
       </div>
     </section>
   );
-}
+});
+
+export default AdvancedHero;

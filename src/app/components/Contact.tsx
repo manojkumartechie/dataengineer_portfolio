@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { Mail, MapPin, Phone, Github, Linkedin } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface ContactProps {
@@ -16,7 +17,8 @@ interface ContactProps {
   };
 }
 
-export default function Contact({ contactInfo }: ContactProps) {
+// Memoized component to prevent unnecessary re-renders
+const Contact = memo(function Contact({ contactInfo }: ContactProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,15 +27,17 @@ export default function Contact({ contactInfo }: ContactProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // Memoized input change handler
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-  };
+  }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Memoized form submit handler
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -49,32 +53,39 @@ export default function Contact({ contactInfo }: ContactProps) {
     
     // Reset status after 3 seconds
     setTimeout(() => setSubmitStatus('idle'), 3000);
-  };
+  }, [formData]);
 
   useEffect(() => {
-    const cards = document.querySelectorAll('.glass-card');
+    const cards = document.querySelectorAll('.contact-glass-card');
     cards.forEach(card => {
-      // Remove scroll-triggered 3D reveal effect
-      // Only keep GSAP glassmorphism animation on hover
-      card.addEventListener("mouseenter", () => {
+      // Simplified hover animations for better performance
+      const handleMouseEnter = () => {
         gsap.to(card, {
           background: "rgba(255,255,255,0.25)",
           boxShadow: "0 12px 40px 0 rgba(31,38,135,0.45)",
-          backdropFilter: "blur(16px)",
-          duration: 0.5,
+          duration: 0.3,
           ease: "power2.out",
         });
-      });
-      card.addEventListener("mouseleave", () => {
+      };
+      
+      const handleMouseLeave = () => {
         gsap.to(card, {
           background: "rgba(255,255,255,0.15)",
           boxShadow: "0 8px 32px 0 rgba(31,38,135,0.37)",
-          backdropFilter: "blur(8px)",
-          duration: 0.5,
+          duration: 0.3,
           ease: "power2.in",
         });
-      });
+      };
+
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      };
     });
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
@@ -152,6 +163,7 @@ export default function Contact({ contactInfo }: ContactProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 sm:w-12 sm:h-12 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors duration-200 min-w-[44px] min-h-[44px]"
+                  aria-label="Visit GitHub profile"
                 >
                   <Github className="w-5 h-5 sm:w-6 sm:h-6" />
                 </a>
@@ -162,6 +174,7 @@ export default function Contact({ contactInfo }: ContactProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 sm:w-12 sm:h-12 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors duration-200 min-w-[44px] min-h-[44px]"
+                  aria-label="Visit LinkedIn profile"
                 >
                   <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
                 </a>
@@ -244,4 +257,6 @@ export default function Contact({ contactInfo }: ContactProps) {
       </div>
     </section>
   );
-} 
+});
+
+export default Contact;

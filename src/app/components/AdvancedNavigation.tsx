@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { Home, User, Briefcase, Zap, Mail, Menu, X } from 'lucide-react';
 import gsap from 'gsap';
 
@@ -9,59 +9,65 @@ interface NavigationProps {
   scrollToSection: (sectionId: string) => void;
 }
 
-export default function AdvancedNavigation({ activeSection, scrollToSection }: NavigationProps) {
+// Memoized component to prevent unnecessary re-renders
+const AdvancedNavigation = memo(function AdvancedNavigation({ activeSection, scrollToSection }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
-  const menuItemsRef = useRef<HTMLButtonElement[]>([]);
 
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
 
-    // Initial entrance animation
+    // Optimized initial entrance animation
     const tl = gsap.timeline();
     tl.fromTo(nav, 
       { 
         y: -100, 
         opacity: 0,
-        filter: 'blur(20px)',
         backdropFilter: 'blur(0px)'
       },
       { 
         y: 0, 
         opacity: 1,
-        filter: 'blur(0px)',
         backdropFilter: 'blur(16px)',
-        duration: 1.2,
-        ease: "elastic.out(1, 0.8)"
+        duration: 1,
+        ease: "power2.out"
       }
     );
 
-    // Scroll-based navbar behavior
+    // Optimized scroll-based navbar behavior with throttling
     let lastScrollY = window.scrollY;
+    let ticking = false;
+
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Scrolling down - hide navbar
-        gsap.to(nav, {
-          y: -100,
-          duration: 0.3,
-          ease: "power2.out"
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          
+          if (currentScrollY > lastScrollY && currentScrollY > 100) {
+            // Scrolling down - hide navbar
+            gsap.to(nav, {
+              y: -100,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          } else {
+            // Scrolling up - show navbar
+            gsap.to(nav, {
+              y: 0,
+              duration: 0.3,
+              ease: "power2.out"
+            });
+          }
+          
+          lastScrollY = currentScrollY;
+          ticking = false;
         });
-      } else {
-        // Scrolling up - show navbar
-        gsap.to(nav, {
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out"
-        });
+        ticking = true;
       }
-      
-      lastScrollY = currentScrollY;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -76,44 +82,58 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
     { id: 'contact', label: 'Contact', icon: Mail }
   ];
 
-  const handleMenuClick = (sectionId: string) => {
+  // Memoized handlers to prevent unnecessary re-renders
+  const handleMenuClick = useCallback((sectionId: string) => {
     scrollToSection(sectionId);
     setIsMenuOpen(false);
-  };
+  }, [scrollToSection]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-    
-    if (!isMenuOpen) {
-      // Opening menu animation
-      const tl = gsap.timeline();
-      tl.to('.mobile-menu', {
-        opacity: 1,
-        y: 0,
-        duration: 0.3,
-        ease: "back.out(1.7)"
-      })
-      .fromTo('.mobile-menu-item',
-        { opacity: 0, x: -50 },
-        { 
-          opacity: 1, 
-          x: 0,
-          duration: 0.2,
-          stagger: 0.1,
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen(prev => {
+      const newState = !prev;
+      
+      if (newState) {
+        // Opening menu animation
+        const tl = gsap.timeline();
+        tl.to('.mobile-menu', {
+          opacity: 1,
+          y: 0,
+          duration: 0.3,
           ease: "power2.out"
-        },
-        "-=0.1"
-      );
-    } else {
-      // Closing menu animation
-      gsap.to('.mobile-menu', {
-        opacity: 0,
-        y: -20,
-        duration: 0.2,
-        ease: "power2.in"
-      });
-    }
-  };
+        })
+        .fromTo('.mobile-menu-item',
+          { opacity: 0, x: -30 },
+          { 
+            opacity: 1, 
+            x: 0,
+            duration: 0.2,
+            stagger: 0.05,
+            ease: "power2.out"
+          },
+          "-=0.1"
+        );
+      } else {
+        // Closing menu animation
+        gsap.to('.mobile-menu', {
+          opacity: 0,
+          y: -20,
+          duration: 0.2,
+          ease: "power2.in"
+        });
+      }
+      
+      return newState;
+    });
+  }, []);
+
+  // Memoized button hover handlers
+  const handleButtonHover = useCallback((e: React.MouseEvent<HTMLButtonElement>, isEntering: boolean) => {
+    gsap.to(e.currentTarget, {
+      scale: isEntering ? 1.05 : 1,
+      duration: 0.2,
+      ease: "power2.out"
+    });
+  }, []);
 
   return (
     <nav 
@@ -133,30 +153,18 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex space-x-1">
-            {menuItems.map((item, index) => (
+            {menuItems.map((item) => (
               <button
                 key={item.id}
-                ref={el => menuItemsRef.current[index] = el!}
                 onClick={() => scrollToSection(item.id)}
                 className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
                   activeSection === item.id
                     ? 'text-blue-400 bg-blue-400/10'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
-                onMouseEnter={(e) => {
-                  gsap.to(e.currentTarget, {
-                    scale: 1.05,
-                    duration: 0.2,
-                    ease: "back.out(1.7)"
-                  });
-                }}
-                onMouseLeave={(e) => {
-                  gsap.to(e.currentTarget, {
-                    scale: 1,
-                    duration: 0.2,
-                    ease: "back.out(1.7)"
-                  });
-                }}
+                onMouseEnter={(e) => handleButtonHover(e, true)}
+                onMouseLeave={(e) => handleButtonHover(e, false)}
+                aria-label={`Navigate to ${item.label} section`}
               >
                 <item.icon className="w-4 h-4" />
                 <span>{item.label}</span>
@@ -171,6 +179,8 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
           <button
             className="lg:hidden p-2 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors duration-200 min-w-[44px] min-h-[44px] flex items-center justify-center"
             onClick={toggleMenu}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -179,7 +189,7 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
         {/* Mobile Navigation Menu */}
         <div className={`lg:hidden mobile-menu ${isMenuOpen ? 'block' : 'hidden'} opacity-0 -translate-y-4`}>
           <div className="px-2 pt-2 pb-3 space-y-2 glass-card border-t border-white/10 mt-2 rounded-lg">
-            {menuItems.map((item, index) => (
+            {menuItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => handleMenuClick(item.id)}
@@ -188,6 +198,7 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
                     ? 'text-blue-400 bg-blue-400/10'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
                 }`}
+                aria-label={`Navigate to ${item.label} section`}
               >
                 <item.icon className="w-5 h-5" />
                 <span>{item.label}</span>
@@ -198,4 +209,6 @@ export default function AdvancedNavigation({ activeSection, scrollToSection }: N
       </div>
     </nav>
   );
-}
+});
+
+export default AdvancedNavigation;

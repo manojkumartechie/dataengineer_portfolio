@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Frontend Developer",
-  description: "Professional portfolio showcasing frontend development skills, projects, and experience",
+  title: "Manoj Kumar | Data Engineer Portfolio",
+  description: "Professional portfolio showcasing data engineering skills, big data technologies, and scalable data infrastructure projects",
+  keywords: "data engineer, big data, apache spark, kafka, data pipelines, cloud computing, analytics",
+  authors: [{ name: "Manoj Kumar" }],
+  viewport: "width=device-width, initial-scale=1",
 };
 
 export default function RootLayout({

@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface Project {
@@ -19,7 +20,8 @@ interface ProjectCardProps {
   index: number;
 }
 
-export default function AdvancedProjectCard({ project, index }: ProjectCardProps) {
+// Memoized component to prevent unnecessary re-renders
+const AdvancedProjectCard = memo(function AdvancedProjectCard({ project, index }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -30,137 +32,102 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
     const content = contentRef.current;
     if (!card || !image || !content) return;
 
-    // Entrance animation
-    gsap.fromTo(card,
+    // Optimized entrance animation with reduced complexity
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: card,
+        start: "top 85%",
+        toggleActions: "play none none reverse",
+        once: true // Only animate once for better performance
+      }
+    });
+
+    tl.fromTo(card,
       { 
         opacity: 0, 
-        y: 100,
-        rotationY: -30,
-        transformPerspective: 1000
+        y: 60,
+        scale: 0.95
       },
       {
         opacity: 1,
         y: 0,
-        rotationY: 0,
-        duration: 1,
-        delay: index * 0.2,
-        ease: "back.out(1.7)",
-        scrollTrigger: {
-          trigger: card,
-          start: "top 80%",
-          toggleActions: "play none none reverse"
-        }
+        scale: 1,
+        duration: 0.8,
+        delay: index * 0.1, // Reduced stagger delay
+        ease: "power2.out"
       }
     );
 
-    // 3D hover effect
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = (y - centerY) / 10;
-      const rotateY = (centerX - x) / 10;
-
-      gsap.to(card, {
-        rotationX: rotateX,
-        rotationY: rotateY,
-        transformPerspective: 1000,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-
-      // Parallax effect on image
-      gsap.to(image, {
-        x: (x - centerX) / 20,
-        y: (y - centerY) / 20,
-        duration: 0.3,
-        ease: "power2.out"
-      });
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(card, {
-        rotationX: 0,
-        rotationY: 0,
-        duration: 0.5,
-        ease: "elastic.out(1, 0.8)"
-      });
-
-      gsap.to(image, {
-        x: 0,
-        y: 0,
-        duration: 0.5,
-        ease: "elastic.out(1, 0.8)"
-      });
-    };
+    // Simplified hover effects for better performance
+    let hoverTween: gsap.core.Tween | null = null;
+    let imageTween: gsap.core.Tween | null = null;
 
     const handleMouseEnter = () => {
-      gsap.to(card, {
-        scale: 1.05,
+      // Kill existing tweens to prevent conflicts
+      if (hoverTween) hoverTween.kill();
+      if (imageTween) imageTween.kill();
+
+      hoverTween = gsap.to(card, {
+        scale: 1.03,
         duration: 0.3,
-        ease: "back.out(1.7)"
+        ease: "power2.out"
       });
 
-      gsap.to(image, {
+      imageTween = gsap.to(image, {
         scale: 1.1,
         duration: 0.3,
-        ease: "back.out(1.7)"
+        ease: "power2.out"
       });
 
-      // Animate tech tags
+      // Animate tech tags with reduced complexity
       gsap.fromTo('.tech-tag',
-        { scale: 0.8, opacity: 0.7 },
+        { scale: 0.95 },
         { 
           scale: 1, 
-          opacity: 1,
           duration: 0.2,
-          stagger: 0.05,
-          ease: "back.out(1.7)"
+          stagger: 0.03,
+          ease: "power2.out"
         }
       );
     };
 
-    const handleMouseLeaveScale = () => {
-      gsap.to(card, {
+    const handleMouseLeave = () => {
+      if (hoverTween) hoverTween.kill();
+      if (imageTween) imageTween.kill();
+
+      hoverTween = gsap.to(card, {
         scale: 1,
         duration: 0.3,
-        ease: "back.out(1.7)"
+        ease: "power2.out"
       });
 
-      gsap.to(image, {
+      imageTween = gsap.to(image, {
         scale: 1,
         duration: 0.3,
-        ease: "back.out(1.7)"
+        ease: "power2.out"
       });
     };
 
-    card.addEventListener('mousemove', handleMouseMove);
-    card.addEventListener('mouseleave', () => {
-      handleMouseLeave();
-      handleMouseLeaveScale();
-    });
     card.addEventListener('mouseenter', handleMouseEnter);
+    card.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      card.removeEventListener('mousemove', handleMouseMove);
-      card.removeEventListener('mouseleave', handleMouseLeave);
       card.removeEventListener('mouseenter', handleMouseEnter);
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      card.removeEventListener('mouseleave', handleMouseLeave);
+      if (hoverTween) hoverTween.kill();
+      if (imageTween) imageTween.kill();
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.trigger === card) trigger.kill();
+      });
     };
   }, [index]);
 
   return (
     <div
       ref={cardRef}
-      className="group relative glass-card overflow-hidden rounded-2xl"
-      style={{ 
-        transformStyle: 'preserve-3d',
-        willChange: 'transform'
-      }}
+      className="group relative glass-card overflow-hidden rounded-2xl will-change-transform"
     >
-      {/* Animated border */}
+      {/* Simplified animated border */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
       <div className="absolute inset-0.5 bg-slate-900 rounded-2xl"></div>
       
@@ -172,7 +139,9 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
             ref={imageRef}
             src={project.image}
             alt={project.title}
-            className="w-full h-48 object-cover"
+            className="w-full h-48 object-cover will-change-transform"
+            loading="lazy" // Lazy loading for better performance
+            decoding="async" // Async decoding
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           
@@ -185,6 +154,7 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200 transform hover:scale-105"
+                  aria-label={`View live demo of ${project.title}`}
                 >
                   Live Demo
                 </a>
@@ -195,6 +165,7 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors duration-200 transform hover:scale-105"
+                  aria-label={`View source code of ${project.title}`}
                 >
                   Source Code
                 </a>
@@ -209,13 +180,13 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
             {project.title}
           </h3>
           
-          <p className="text-gray-300 mb-4 leading-relaxed">
+          <p className="text-gray-300 mb-4 leading-relaxed line-clamp-3">
             {project.description}
           </p>
           
           {/* Tech stack */}
           <div className="flex flex-wrap gap-2 mb-4">
-            {project.tech.map((tech, techIndex) => (
+            {project.tech.slice(0, 6).map((tech, techIndex) => ( // Limit to 6 tags for better layout
               <span
                 key={techIndex}
                 className="tech-tag px-3 py-1 bg-blue-500/20 text-blue-300 text-sm rounded-full border border-blue-500/30 hover:bg-blue-500/30 transition-colors duration-200"
@@ -223,6 +194,11 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
                 {tech}
               </span>
             ))}
+            {project.tech.length > 6 && (
+              <span className="px-3 py-1 bg-gray-500/20 text-gray-400 text-sm rounded-full">
+                +{project.tech.length - 6} more
+              </span>
+            )}
           </div>
 
           {/* Mobile buttons */}
@@ -233,6 +209,7 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 text-center px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors duration-200"
+                aria-label={`View live demo of ${project.title}`}
               >
                 Live Demo
               </a>
@@ -243,6 +220,7 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 text-center px-4 py-2 bg-gray-700 text-white rounded-lg font-medium hover:bg-gray-600 transition-colors duration-200"
+                aria-label={`View source code of ${project.title}`}
               >
                 Source
               </a>
@@ -252,4 +230,6 @@ export default function AdvancedProjectCard({ project, index }: ProjectCardProps
       </div>
     </div>
   );
-}
+});
+
+export default AdvancedProjectCard;

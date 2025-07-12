@@ -1,22 +1,22 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import AdvancedNavigation from './AdvancedNavigation';
 import AdvancedHero from './AdvancedHero';
-import AdvancedProjectCard from './AdvancedProjectCard';
 import Skills from './Skills';
 import Contact from './Contact';
-import CustomCursor from './CustomCursor';
-import ParticleBackground from './ParticleBackground';
-import AnimatedBackground from './AnimatedBackground';
-import LightingEffects from './LightingEffects';
 import LoadingSpinner from './LoadingSpinner';
 import ErrorBoundary from './ErrorBoundary';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-// Register GSAP plugins
+// Lazy load heavy components for better performance
+const AdvancedProjectCard = lazy(() => import('./AdvancedProjectCard'));
+const CustomCursor = lazy(() => import('./CustomCursor'));
+const ParticleBackground = lazy(() => import('./ParticleBackground'));
+const AnimatedBackground = lazy(() => import('./AnimatedBackground'));
+const LightingEffects = lazy(() => import('./LightingEffects'));
+
+// Register GSAP plugins once
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 }
@@ -54,59 +54,85 @@ export default function ClientPortfolio({ projects, skillCategories, contactInfo
   const [activeSection, setActiveSection] = useState('home');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Memoized scroll handler to prevent excessive re-renders
+  const handleScroll = () => {
+    const sections = ['home', 'about', 'projects', 'skills', 'contact'];
+    const scrollPosition = window.scrollY + 100;
+
+    for (const section of sections) {
+      const element = document.getElementById(section);
+      if (element) {
+        const offsetTop = element.offsetTop;
+        const offsetHeight = element.offsetHeight;
+        
+        if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          if (activeSection !== section) {
+            setActiveSection(section);
+          }
+          break;
+        }
+      }
+    }
+  };
 
   useEffect(() => {
+    // Check if desktop for conditional rendering
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+
     try {
       // Simulate loading time for animations to initialize
       const timer = setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 800); // Reduced loading time
 
-      const handleScroll = () => {
-        const sections = ['home', 'about', 'projects', 'skills', 'contact'];
-        const scrollPosition = window.scrollY + 100;
-
-        for (const section of sections) {
-          const element = document.getElementById(section);
-          if (element) {
-            const offsetTop = element.offsetTop;
-            const offsetHeight = element.offsetHeight;
-            
-            if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-              setActiveSection(section);
-              break;
-            }
-          }
+      // Throttled scroll handler for better performance
+      let ticking = false;
+      const throttledScrollHandler = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            handleScroll();
+            ticking = false;
+          });
+          ticking = true;
         }
       };
 
-      window.addEventListener('scroll', handleScroll);
+      window.addEventListener('scroll', throttledScrollHandler, { passive: true });
 
       return () => {
         clearTimeout(timer);
-        window.removeEventListener('scroll', handleScroll);
+        window.removeEventListener('scroll', throttledScrollHandler);
+        window.removeEventListener('resize', checkIsDesktop);
       };
     } catch (err) {
       setError('Failed to initialize portfolio');
       setIsLoading(false);
     }
-  }, []);
+  }, [activeSection]); // Added activeSection to dependency array
 
   useEffect(() => {
     if (!isLoading && typeof window !== 'undefined') {
       try {
-        // Global scroll-triggered animations
+        // Optimized scroll-triggered animations with reduced complexity
         const sections = document.querySelectorAll('section');
         sections.forEach((section) => {
           gsap.fromTo(section,
-            { opacity: 0.8 },
+            { opacity: 0.9 },
             {
               opacity: 1,
               scrollTrigger: {
                 trigger: section,
-                start: "top 80%",
-                end: "bottom 20%",
+                start: "top 85%",
+                end: "bottom 15%",
                 scrub: 1,
+                once: true, // Only animate once for better performance
               }
             }
           );
@@ -127,9 +153,9 @@ export default function ClientPortfolio({ projects, skillCategories, contactInfo
     const element = document.getElementById(sectionId);
     if (element) {
       try {
-        if (typeof window !== 'undefined' && gsap && gsap.to && ScrollToPlugin) {
+        if (typeof window !== 'undefined' && gsap?.to && ScrollToPlugin) {
           gsap.to(window, {
-            duration: 1.5,
+            duration: 1.2, // Slightly faster scroll
             scrollTo: { y: element, offsetY: 80 },
             ease: "power2.inOut"
           });
@@ -170,21 +196,29 @@ export default function ClientPortfolio({ projects, skillCategories, contactInfo
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-slate-900 text-white overflow-x-hidden">
-        {/* Custom Cursor - only on desktop */}
-        <div className="hidden lg:block">
-          <CustomCursor />
-        </div>
+        {/* Conditionally render heavy components only on desktop */}
+        {isDesktop && (
+          <Suspense fallback={null}>
+            <CustomCursor />
+          </Suspense>
+        )}
         
-        {/* Animated Background */}
-        <AnimatedBackground />
+        {/* Animated Background - lighter version */}
+        <Suspense fallback={null}>
+          <AnimatedBackground />
+        </Suspense>
         
-        {/* Particle Background - reduced on mobile for performance */}
-        <div className="hidden md:block">
-          <ParticleBackground />
-        </div>
+        {/* Particle Background - only on larger screens */}
+        {isDesktop && (
+          <Suspense fallback={null}>
+            <ParticleBackground />
+          </Suspense>
+        )}
         
         {/* Lighting Effects */}
-        <LightingEffects />
+        <Suspense fallback={null}>
+          <LightingEffects />
+        </Suspense>
 
         {/* Navigation */}
         <AdvancedNavigation activeSection={activeSection} scrollToSection={scrollToSection} />
@@ -268,7 +302,9 @@ export default function ClientPortfolio({ projects, skillCategories, contactInfo
             {/* Responsive Projects Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
               {projects.map((project, index) => (
-                <AdvancedProjectCard key={index} project={project} index={index} />
+                <Suspense key={index} fallback={<div className="glass-card rounded-2xl h-96 animate-pulse" />}>
+                  <AdvancedProjectCard project={project} index={index} />
+                </Suspense>
               ))}
             </div>
           </div>

@@ -1,20 +1,9 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Database, 
-  Cloud, 
-  Code, 
-  BarChart3, 
-  Server, 
-  GitBranch,
-  Monitor,
-  Cpu,
-  HardDrive,
-  Zap
-} from 'lucide-react';
+
 gsap.registerPlugin(ScrollTrigger);
 
 interface Skill {
@@ -33,63 +22,64 @@ interface SkillsProps {
   categories: SkillCategory[];
 }
 
-export default function Skills({ categories }: SkillsProps) {
+// Memoized component to prevent unnecessary re-renders
+const Skills = memo(function Skills({ categories }: SkillsProps) {
   useEffect(() => {
     const cards = document.querySelectorAll('.glass-card');
     cards.forEach(card => {
-      // Remove scroll-triggered 3D reveal effect
-      // Only keep GSAP glassmorphism animation on hover
-      card.addEventListener("mouseenter", () => {
+      // Simplified hover animations for better performance
+      const handleMouseEnter = () => {
         gsap.to(card, {
           background: "rgba(255,255,255,0.25)",
           boxShadow: "0 12px 40px 0 rgba(31,38,135,0.45)",
-          backdropFilter: "blur(16px)",
-          duration: 0.5,
+          duration: 0.3,
           ease: "power2.out",
         });
-      });
-      card.addEventListener("mouseleave", () => {
+      };
+      
+      const handleMouseLeave = () => {
         gsap.to(card, {
           background: "rgba(255,255,255,0.15)",
           boxShadow: "0 8px 32px 0 rgba(31,38,135,0.37)",
-          backdropFilter: "blur(8px)",
-          duration: 0.5,
+          duration: 0.3,
           ease: "power2.in",
         });
-      });
+      };
+
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      };
     });
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, []);
 
-  // Technologies with real logos from Simple Icons CDN
+  // Optimized technology and tools arrays with fewer items for better performance
   const technologies = [
     { name: 'Apache Spark', logo: 'https://cdn.simpleicons.org/apachespark/FF8000' },
     { name: 'Apache Kafka', logo: 'https://cdn.simpleicons.org/apachekafka/231F20' },
     { name: 'Apache Flink', logo: 'https://cdn.simpleicons.org/apacheflink/E6526F' },
     { name: 'Hadoop', logo: 'https://cdn.simpleicons.org/apachehadoop/66CCFF' },
-    { name: 'Apache Hive', logo: 'https://cdn.simpleicons.org/apachehive/FDEE21' },
     { name: 'Apache Airflow', logo: 'https://cdn.simpleicons.org/apacheairflow/017CEE' },
     { name: 'Snowflake', logo: 'https://cdn.simpleicons.org/snowflake/29B5E8' },
     { name: 'dbt', logo: 'https://cdn.simpleicons.org/dbt/FF694B' },
-    { name: 'Tableau', logo: 'https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tableau.svg' },
     { name: 'Elasticsearch', logo: 'https://cdn.simpleicons.org/elasticsearch/005571' },
     { name: 'Prometheus', logo: 'https://cdn.simpleicons.org/prometheus/E6522C' },
     { name: 'Grafana', logo: 'https://cdn.simpleicons.org/grafana/F46800' },
     { name: 'Terraform', logo: 'https://cdn.simpleicons.org/terraform/623CE4' },
   ];
 
-  // Tools with real logos from Simple Icons CDN
   const tools = [
     { name: 'Git', logo: 'https://cdn.simpleicons.org/git/F05032' },
     { name: 'GitHub', logo: 'https://cdn.simpleicons.org/github/181717' },
-    { name: 'GitLab', logo: 'https://cdn.simpleicons.org/gitlab/FCA121' },
-    { name: 'Bitbucket', logo: 'https://cdn.simpleicons.org/bitbucket/0052CC' },
-    { name: 'Jenkins', logo: 'https://cdn.simpleicons.org/jenkins/D24939' },
     { name: 'Docker', logo: 'https://cdn.simpleicons.org/docker/2496ED' },
     { name: 'Kubernetes', logo: 'https://cdn.simpleicons.org/kubernetes/326CE5' },
-    { name: 'Linux', logo: 'https://cdn.simpleicons.org/linux/FCC624' },
     { name: 'AWS', logo: 'https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/amazonwebservices/amazonwebservices-original.svg' },
     { name: 'Azure', logo: 'https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/azure/azure-original.svg' },
     { name: 'GCP', logo: 'https://cdn.simpleicons.org/googlecloud/4285F4' },
@@ -105,7 +95,7 @@ export default function Skills({ categories }: SkillsProps) {
         {/* Skills Section */}
         <div className="text-center mb-16">
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-start mb-4">
-            {/* 3D Brain/Lightbulb Logo for Skills */}
+            {/* Optimized 3D Brain Logo */}
             <div className="logo-3d mb-4 md:mb-0 md:mr-6">
               <svg 
                 width="80" 
@@ -125,14 +115,12 @@ export default function Skills({ categories }: SkillsProps) {
                     <feDropShadow dx="2" dy="4" stdDeviation="3" floodColor="#000" floodOpacity="0.3"/>
                   </filter>
                 </defs>
-                {/* Brain shape */}
                 <path 
                   d="M30 35 Q25 25 35 20 Q45 15 55 20 Q65 15 75 20 Q85 25 80 35 Q85 45 75 50 Q80 60 70 65 Q60 70 50 65 Q40 70 30 65 Q20 60 25 50 Q15 45 20 35 Q25 25 30 35 Z" 
                   fill="url(#brainGradient)" 
                   filter="url(#shadow)"
                   className="animate-pulse"
                 />
-                {/* Brain details */}
                 <path 
                   d="M35 30 Q40 25 45 30 Q50 35 45 40 Q40 35 35 30" 
                   fill="rgba(255,255,255,0.3)" 
@@ -152,6 +140,7 @@ export default function Skills({ categories }: SkillsProps) {
             I've worked with a variety of big data technologies and tools to build scalable data infrastructure and pipelines.
           </p>
         </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mb-10 sm:mb-20">
           {categories.map((category, index) => (
             <div 
@@ -177,7 +166,6 @@ export default function Skills({ categories }: SkillsProps) {
         {/* Technologies Section */}
         <div className="mb-20">
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-start mb-6 sm:mb-8">
-            {/* 3D Chip/Network Logo for Technologies */}
             <div className="logo-3d mb-4 md:mb-0 md:mr-4">
               <svg 
                 width="60" 
@@ -193,37 +181,14 @@ export default function Skills({ categories }: SkillsProps) {
                     <stop offset="50%" stopColor="#00f2fe" />
                     <stop offset="100%" stopColor="#43e97b" />
                   </linearGradient>
-                  <filter id="chipShadow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feDropShadow dx="1" dy="3" stdDeviation="2" floodColor="#000" floodOpacity="0.3"/>
-                  </filter>
                 </defs>
-                {/* Chip base */}
-                <rect 
-                  x="25" y="25" width="50" height="50" 
-                  rx="5" 
-                  fill="url(#chipGradient)" 
-                  filter="url(#chipShadow)"
-                />
-                {/* Circuit lines */}
+                <rect x="25" y="25" width="50" height="50" rx="5" fill="url(#chipGradient)" />
                 <rect x="30" y="35" width="40" height="2" fill="rgba(255,255,255,0.8)" />
                 <rect x="30" y="45" width="40" height="2" fill="rgba(255,255,255,0.8)" />
                 <rect x="30" y="55" width="40" height="2" fill="rgba(255,255,255,0.8)" />
                 <rect x="30" y="65" width="40" height="2" fill="rgba(255,255,255,0.8)" />
-                {/* Vertical lines */}
-                <rect x="35" y="30" width="2" height="40" fill="rgba(255,255,255,0.6)" />
-                <rect x="45" y="30" width="2" height="40" fill="rgba(255,255,255,0.6)" />
-                <rect x="55" y="30" width="2" height="40" fill="rgba(255,255,255,0.6)" />
-                <rect x="65" y="30" width="2" height="40" fill="rgba(255,255,255,0.6)" />
-                {/* Connection points */}
                 <circle cx="50" cy="40" r="3" fill="rgba(255,255,255,0.9)" />
                 <circle cx="50" cy="60" r="3" fill="rgba(255,255,255,0.9)" />
-                {/* External pins */}
-                <rect x="15" y="35" width="10" height="3" fill="#666" />
-                <rect x="15" y="45" width="10" height="3" fill="#666" />
-                <rect x="15" y="55" width="10" height="3" fill="#666" />
-                <rect x="75" y="35" width="10" height="3" fill="#666" />
-                <rect x="75" y="45" width="10" height="3" fill="#666" />
-                <rect x="75" y="55" width="10" height="3" fill="#666" />
               </svg>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white text-center md:text-left">
@@ -251,7 +216,6 @@ export default function Skills({ categories }: SkillsProps) {
         {/* Tools Section */}
         <div>
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-start mb-6 sm:mb-8">
-            {/* 3D Gear/Wrench Logo for Tools */}
             <div className="logo-3d mb-4 md:mb-0 md:mr-4">
               <svg 
                 width="60" 
@@ -267,28 +231,14 @@ export default function Skills({ categories }: SkillsProps) {
                     <stop offset="50%" stopColor="#fecfef" />
                     <stop offset="100%" stopColor="#fecfef" />
                   </linearGradient>
-                  <filter id="gearShadow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feDropShadow dx="1" dy="3" stdDeviation="2" floodColor="#000" floodOpacity="0.3"/>
-                  </filter>
                 </defs>
-                {/* Gear teeth */}
                 <path 
                   d="M50 10 L55 20 L60 10 L65 20 L70 15 L75 25 L80 20 L85 30 L80 35 L85 40 L80 50 L85 60 L80 65 L85 70 L75 75 L70 85 L65 80 L60 90 L55 80 L50 90 L45 80 L40 90 L35 80 L30 85 L25 75 L15 70 L20 65 L15 60 L20 50 L15 40 L20 35 L15 30 L25 25 L30 15 L35 20 L40 10 L45 20 Z" 
                   fill="url(#gearGradient)" 
-                  filter="url(#gearShadow)"
                   className="animate-spin-slow"
                 />
-                {/* Inner circle */}
-                <circle 
-                  cx="50" cy="50" r="15" 
-                  fill="rgba(255,255,255,0.9)" 
-                  stroke="rgba(0,0,0,0.1)" 
-                  strokeWidth="1"
-                />
-                {/* Center hole */}
+                <circle cx="50" cy="50" r="15" fill="rgba(255,255,255,0.9)" />
                 <circle cx="50" cy="50" r="8" fill="rgba(0,0,0,0.2)" />
-                {/* Highlight */}
-                <circle cx="45" cy="45" r="3" fill="rgba(255,255,255,0.8)" />
               </svg>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white text-center md:text-left">
@@ -315,4 +265,6 @@ export default function Skills({ categories }: SkillsProps) {
       </div>
     </section>
   );
-} 
+});
+
+export default Skills;

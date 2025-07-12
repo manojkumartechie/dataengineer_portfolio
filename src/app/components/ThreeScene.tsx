@@ -1,32 +1,40 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, memo } from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ThreeScene() {
+// Memoized component to prevent unnecessary re-renders
+const ThreeScene = memo(function ThreeScene() {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene>();
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const meshRef = useRef<THREE.Mesh>();
+  const animationIdRef = useRef<number>();
 
   useEffect(() => {
     const mount = mountRef.current;
     if (!mount) return;
 
-    // Scene setup
+    // Scene setup with optimized settings
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, mount.clientWidth / mount.clientHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true, 
+      antialias: false, // Disabled for better performance
+      powerPreference: "high-performance"
+    });
     
     renderer.setSize(mount.clientWidth, mount.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limit pixel ratio for performance
     renderer.setClearColor(0x000000, 0);
     mount.appendChild(renderer.domElement);
 
-    // Create geometry
-    const geometry = new THREE.IcosahedronGeometry(1, 1);
+    // Create optimized geometry
+    const geometry = new THREE.IcosahedronGeometry(1, 0); // Reduced detail level
     const material = new THREE.MeshPhongMaterial({
       color: 0x4fd1c5,
       shininess: 100,
@@ -36,7 +44,7 @@ export default function ThreeScene() {
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
-    // Lighting
+    // Optimized lighting
     const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
     scene.add(ambientLight);
     
@@ -51,28 +59,35 @@ export default function ThreeScene() {
     rendererRef.current = renderer;
     meshRef.current = mesh;
 
-    // Animation loop
-    const animate = () => {
-      requestAnimationFrame(animate);
-      
-      if (meshRef.current) {
-        meshRef.current.rotation.x += 0.01;
-        meshRef.current.rotation.y += 0.01;
-      }
-      
-      renderer.render(scene, camera);
-    };
-    animate();
+    // Optimized animation loop with frame rate limiting
+    let lastTime = 0;
+    const targetFPS = 30; // Reduced FPS for better performance
+    const frameInterval = 1000 / targetFPS;
 
-    // GSAP animations
+    const animate = (currentTime: number) => {
+      animationIdRef.current = requestAnimationFrame(animate);
+      
+      if (currentTime - lastTime >= frameInterval) {
+        if (meshRef.current) {
+          meshRef.current.rotation.x += 0.005; // Reduced rotation speed
+          meshRef.current.rotation.y += 0.005;
+        }
+        
+        renderer.render(scene, camera);
+        lastTime = currentTime;
+      }
+    };
+    animate(0);
+
+    // Simplified GSAP animations
     gsap.to(mesh.rotation, {
       y: Math.PI * 2,
-      duration: 10,
+      duration: 15, // Slower rotation
       repeat: -1,
       ease: "none"
     });
 
-    // Scroll-triggered animations
+    // Optimized scroll-triggered animations
     ScrollTrigger.create({
       trigger: mount,
       start: "top bottom",
@@ -81,57 +96,93 @@ export default function ThreeScene() {
       onUpdate: (self) => {
         const progress = self.progress;
         if (meshRef.current) {
-          meshRef.current.scale.setScalar(0.5 + progress * 0.5);
-          meshRef.current.rotation.z = progress * Math.PI;
+          meshRef.current.scale.setScalar(0.7 + progress * 0.3);
+          meshRef.current.rotation.z = progress * Math.PI * 0.5;
         }
       }
     });
 
-    // Mouse interaction
+    // Throttled mouse interaction
+    let mouseTween: gsap.core.Tween | null = null;
+    let isMouseMoving = false;
+
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = mount.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-      
-      if (meshRef.current) {
-        gsap.to(meshRef.current.rotation, {
-          x: y * 0.5,
-          y: x * 0.5,
-          duration: 0.5,
-          ease: "power2.out"
-        });
-      }
+      if (isMouseMoving) return;
+      isMouseMoving = true;
+
+      requestAnimationFrame(() => {
+        const rect = mount.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        
+        if (meshRef.current && !mouseTween) {
+          mouseTween = gsap.to(meshRef.current.rotation, {
+            x: y * 0.3, // Reduced intensity
+            y: x * 0.3,
+            duration: 0.8,
+            ease: "power2.out",
+            onComplete: () => {
+              mouseTween = null;
+            }
+          });
+        }
+        
+        isMouseMoving = false;
+      });
     };
 
-    mount.addEventListener('mousemove', handleMouseMove);
-
-    // Resize handler
+    // Optimized resize handler with debouncing
+    let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
-      if (renderer && camera) {
-        camera.aspect = mount.clientWidth / mount.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(mount.clientWidth, mount.clientHeight);
-      }
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (renderer && camera && mount) {
+          camera.aspect = mount.clientWidth / mount.clientHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(mount.clientWidth, mount.clientHeight);
+        }
+      }, 100);
     };
 
-    window.addEventListener('resize', handleResize);
+    mount.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
+      // Cleanup
       mount.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
-      if (renderer) {
+      
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+      
+      if (mouseTween) {
+        mouseTween.kill();
+      }
+      
+      if (renderer && mount.contains(renderer.domElement)) {
         mount.removeChild(renderer.domElement);
         renderer.dispose();
       }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      
+      if (geometry) geometry.dispose();
+      if (material) material.dispose();
+      
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.trigger === mount) trigger.kill();
+      });
+      
+      clearTimeout(resizeTimeout);
     };
   }, []);
 
   return (
     <div
       ref={mountRef}
-      className="w-full h-64 relative z-10"
-      style={{ minHeight: '300px' }}
+      className="w-full h-full relative z-10"
+      style={{ minHeight: '100vh' }}
     />
   );
-}
+});
+
+export default ThreeScene;
