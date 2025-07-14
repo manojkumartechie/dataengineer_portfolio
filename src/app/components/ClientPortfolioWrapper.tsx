@@ -7,6 +7,6 @@ const ClientPortfolio = dynamic(() => import("./ClientPortfolio"), {
   loading: () => <LoadingSpinner />,
 });
 
-export default function ClientPortfolioWrapper(props) {
+export default function ClientPortfolioWrapper(props: any) {
   return <ClientPortfolio {...props} />;
 }

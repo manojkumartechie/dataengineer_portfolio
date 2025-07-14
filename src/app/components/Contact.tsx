@@ -40,18 +40,25 @@ const Contact = memo(function Contact({ contactInfo }: ContactProps) {
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', formData);
-    
-    setSubmitStatus('success');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+    }
+
     setIsSubmitting(false);
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset status after 3 seconds
     setTimeout(() => setSubmitStatus('idle'), 3000);
   }, [formData]);
 
@@ -98,7 +105,7 @@ const Contact = memo(function Contact({ contactInfo }: ContactProps) {
           <h2 className="text-4xl font-bold text-slate-800 dark:text-white mb-4">Get In Touch</h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
           <p className="text-lg text-slate-600 dark:text-slate-300 mt-4">
-            I'm always interested in new opportunities and exciting projects.
+            Get in touch with me for any inquiries or collaborations.
           </p>
         </div>
         

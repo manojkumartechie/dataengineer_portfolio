@@ -10,10 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 // Memoized component to prevent unnecessary re-renders
 const ThreeScene = memo(function ThreeScene() {
   const mountRef = useRef<HTMLDivElement>(null);
-  const sceneRef = useRef<THREE.Scene>();
-  const rendererRef = useRef<THREE.WebGLRenderer>();
-  const meshRef = useRef<THREE.Mesh>();
-  const animationIdRef = useRef<number>();
+  const sceneRef = useRef<THREE.Scene | undefined>(undefined);
+  const rendererRef = useRef<THREE.WebGLRenderer | undefined>(undefined);
+  const meshRef = useRef<THREE.Mesh | undefined>(undefined);
+  const animationIdRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const mount = mountRef.current;

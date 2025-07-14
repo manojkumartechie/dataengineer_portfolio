@@ -1,15 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f172a;
-  --foreground: #f8fafc;
-  --card-bg: rgba(15, 23, 42, 0.8);
-  --glass-bg: rgba(15, 23, 42, 0.6);
-  --glass-blur: 20px;
-  --accent: #3b82f6;
-  --accent-glow: #8b5cf6;
-  --gradient-main: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  --gradient-accent: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+  --background: #000;      /* Pure black */
+  --foreground: #fff;      /* Pure white */
+  --card-bg: rgba(0, 0, 0, 0.8);
+  --glass-bg: rgba(0, 0, 0, 0.6);
+  --accent: #fff;          /* White accent */
+  --accent-glow: #fff;     /* White accent */
+  --gradient-main: linear-gradient(135deg, #000 0%, #222 100%);
+  --gradient-accent: linear-gradient(90deg, #fff 0%, #ccc 100%);
 }
 
 * {

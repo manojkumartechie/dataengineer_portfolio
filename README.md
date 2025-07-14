@@ -18,7 +18,7 @@ A modern, high-performance portfolio website built with Next.js 15, TypeScript, 
 2. **About**: Professional background and key metrics
 3. **Projects**: Showcase of data engineering projects with interactive cards
 4. **Skills**: Technical skills organized by categories with technology logos
-5. **Contact**: Contact form and contact information
+5. **Contact**: Contact form with email functionality and contact information
 
 ## 🛠️ Technologies Used
 
@@ -29,6 +29,7 @@ A modern, high-performance portfolio website built with Next.js 15, TypeScript, 
 - **GSAP** - Professional-grade animations
 - **Three.js** - 3D graphics and interactive scenes
 - **Lucide React** - Modern icon library
+- **Nodemailer** - Email functionality for contact form
 
 ## 📦 Installation
 
@@ -43,12 +44,25 @@ cd portfolio
 npm install
 ```
 
-3. Run the development server:
+3. Set up environment variables:
+Create a `.env.local` file in the root directory with the following variables:
+```bash
+# Email Configuration for Contact Form
+EMAIL_USER=your-gmail@gmail.com
+EMAIL_PASSWORD=your-gmail-app-password
+```
+
+**Note**: For the contact form to work, you need to:
+- Use a Gmail account (easier setup than Outlook)
+- Generate an app password from your Google account settings
+- Replace the placeholder values with your actual credentials
+
+4. Run the development server:
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## ⚡ Performance Optimizations
 
@@ -97,6 +111,22 @@ Add new projects to the projects array:
   githubUrl: "https://github.com/your-username/project"
 }
 ```
+
+## 📧 Contact Form
+
+The contact form includes:
+- **Form Validation**: Client-side validation for required fields and email format
+- **Email Integration**: Uses Nodemailer with Zoho SMTP for reliable email delivery
+- **Success/Error Handling**: Clear feedback messages for form submission status
+- **Security**: Environment variables for sensitive email credentials
+- **Accessibility**: Proper form labels and ARIA attributes
+
+### Email Configuration
+The contact form uses Gmail SMTP for sending emails:
+- Configure your Gmail credentials in `.env.local`
+- Use Gmail app password for enhanced security
+- Supports both text and HTML email formats
+- Includes sender information and message formatting
 
 ## 📱 Responsive Design
 

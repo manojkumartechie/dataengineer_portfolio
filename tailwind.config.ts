@@ -1,6 +1,6 @@
-import { defineConfig } from 'tailwindcss'
+import type { Config } from 'tailwindcss'
 
-export default defineConfig({
+const config: Config = {
   content: [
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,11 +10,11 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
-        background: '#1a1a1a',
-        foreground: '#f4f4f9',
-        accent: '#4fd1c5',
-        'accent-glow': '#1d8cf8',
-        'card-bg': 'rgba(40,40,50,0.7)',
+        background: '#000',
+        foreground: '#fff',
+        accent: '#fff',
+        'accent-glow': '#fff',
+        'card-bg': 'rgba(0,0,0,0.7)',
       },
       boxShadow: {
         'glow': '0 0 8px 2px #4fd1c5, 0 4px 24px rgba(0,0,0,0.5)',
@@ -42,4 +42,6 @@ export default defineConfig({
     },
   },
   plugins: [],
-})
+}
+
+export default config

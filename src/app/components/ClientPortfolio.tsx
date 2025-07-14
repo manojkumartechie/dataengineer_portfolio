@@ -55,7 +55,13 @@ interface ClientPortfolioProps {
 export default function ClientPortfolio({ data }: ClientPortfolioProps) {
   if (!data) return <div>No data available.</div>;
 
-  const { projects = [], skillCategories = [], contactInfo = {} } = data;
+  const { projects = [], skillCategories = [], contactInfo = {
+    email: 'manojkumar2004@zoho.in',
+    location: 'Bangalore, India',
+    phone: '+91 9876543210',
+    linkedin: 'https://linkedin.com/in/manojkumartechie',
+    github: 'https://github.com/manojkumartechie'
+  } } = data;
 
   const [activeSection, setActiveSection] = useState('home');
   const [isLoading, setIsLoading] = useState(true);

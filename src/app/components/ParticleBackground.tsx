@@ -17,7 +17,7 @@ interface Particle {
 const ParticleBackground = memo(function ParticleBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-  const animationIdRef = useRef<number>();
+  const animationIdRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     const container = containerRef.current;
