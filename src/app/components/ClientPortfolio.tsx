@@ -28,6 +28,9 @@ interface Project {
   image: string;
   liveUrl?: string;
   githubUrl?: string;
+  architecture?: string;
+  metrics?: string;
+  challenges?: string;
 }
 
 interface SkillCategory {
@@ -258,40 +261,41 @@ export default function ClientPortfolio({ data }: ClientPortfolioProps) {
                 </h3>
                 <div className="space-y-4 sm:space-y-6 text-gray-300 leading-relaxed">
                   <p>
-                    With over 5 years of experience in data engineering, I specialize in building 
-                    scalable data pipelines, designing efficient data architectures, and transforming 
-                    raw data into actionable insights. I love solving complex data challenges and 
-                    optimizing performance at scale.
+                    With over 5 years of experience in data engineering, I specialize in architecting 
+                    and implementing end-to-end data solutions across cloud platforms. My expertise spans 
+                    real-time streaming, batch processing, data warehousing, and MLOps - transforming 
+                    complex data challenges into scalable, production-ready systems.
                   </p>
                   <p>
-                    My journey in data started with curiosity about how data drives business decisions 
-                    and has evolved into a passion for building robust, scalable data infrastructure. 
-                    I believe in data quality, performance optimization, and continuous learning.
+                    I've architected data platforms processing billions of events daily, implemented 
+                    multi-cloud data lakes, and built ML pipelines serving real-time predictions. 
+                    My approach emphasizes data quality, cost optimization, and building systems that 
+                    scale with business growth while maintaining operational excellence.
                   </p>
                   <p>
-                    When I'm not building data pipelines, you can find me exploring new big data 
-                    technologies, contributing to open-source data projects, or sharing knowledge 
-                    with the data engineering community.
+                    I'm passionate about emerging technologies like stream processing, graph databases, 
+                    and serverless architectures. I actively contribute to open-source projects, 
+                    mentor junior engineers, and stay current with the evolving data engineering landscape.
                   </p>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 <div className="glass-card p-4 sm:p-6 rounded-xl text-center">
-                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-400 mb-2">5+</h4>
+                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-400 mb-2">6+</h4>
                   <p className="text-gray-300 text-sm sm:text-base">Years Experience</p>
                 </div>
                 <div className="glass-card p-4 sm:p-6 rounded-xl text-center">
-                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-400 mb-2">25+</h4>
-                  <p className="text-gray-300 text-sm sm:text-base">Data Pipelines Built</p>
+                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-400 mb-2">50+</h4>
+                  <p className="text-gray-300 text-sm sm:text-base">Data Pipelines</p>
                 </div>
                 <div className="glass-card p-4 sm:p-6 rounded-xl text-center">
-                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pink-400 mb-2">1M+</h4>
-                  <p className="text-gray-300 text-sm sm:text-base">Events/Minute Processed</p>
+                  <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pink-400 mb-2">10B+</h4>
+                  <p className="text-gray-300 text-sm sm:text-base">Events/Day Processed</p>
                 </div>
                 <div className="glass-card p-4 sm:p-6 rounded-xl text-center">
                   <h4 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-400 mb-2">99.9%</h4>
-                  <p className="text-gray-300 text-sm sm:text-base">Pipeline Uptime</p>
+                  <p className="text-gray-300 text-sm sm:text-base">System Uptime</p>
                 </div>
               </div>
             </div>

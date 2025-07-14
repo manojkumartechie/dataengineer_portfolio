@@ -184,6 +184,24 @@ const AdvancedProjectCard = memo(function AdvancedProjectCard({ project, index }
             {project.description}
           </p>
           
+          {/* Architecture & Metrics */}
+          {(project.architecture || project.metrics) && (
+            <div className="mb-4 space-y-2">
+              {project.architecture && (
+                <div className="text-sm">
+                  <span className="text-blue-300 font-medium">Architecture: </span>
+                  <span className="text-gray-400">{project.architecture}</span>
+                </div>
+              )}
+              {project.metrics && (
+                <div className="text-sm">
+                  <span className="text-green-300 font-medium">Metrics: </span>
+                  <span className="text-gray-400">{project.metrics}</span>
+                </div>
+              )}
+            </div>
+          )}
+          
           {/* Tech stack */}
           <div className="flex flex-wrap gap-2 mb-4">
             {project.tech.slice(0, 6).map((tech, techIndex) => ( // Limit to 6 tags for better layout

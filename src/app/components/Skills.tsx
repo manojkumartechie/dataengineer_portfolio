@@ -69,24 +69,52 @@ const Skills = memo(function Skills({ categories }: SkillsProps) {
     { name: 'Apache Airflow', logo: 'https://cdn.simpleicons.org/apacheairflow/017CEE' },
     { name: 'Snowflake', logo: 'https://cdn.simpleicons.org/snowflake/29B5E8' },
     { name: 'dbt', logo: 'https://cdn.simpleicons.org/dbt/FF694B' },
-    { name: 'Elasticsearch', logo: 'https://cdn.simpleicons.org/elasticsearch/005571' },
-    { name: 'Prometheus', logo: 'https://cdn.simpleicons.org/prometheus/E6522C' },
-    { name: 'Grafana', logo: 'https://cdn.simpleicons.org/grafana/F46800' },
-    { name: 'Terraform', logo: 'https://cdn.simpleicons.org/terraform/623CE4' },
+    { name: 'Databricks', logo: 'https://cdn.simpleicons.org/databricks/FF3621' },
+    { name: 'Apache Beam', logo: 'https://cdn.simpleicons.org/apachebeam/D9A441' },
+    { name: 'Delta Lake', logo: 'https://cdn.simpleicons.org/deltalake/00ADD4' },
+    { name: 'Great Expectations', logo: 'https://cdn.simpleicons.org/greatexpectations/FF6B35' },
+    { name: 'Apache Atlas', logo: 'https://cdn.simpleicons.org/apache/D22128' },
+    { name: 'Debezium', logo: 'https://cdn.simpleicons.org/apache/D22128' },
+    { name: 'Confluent', logo: 'https://cdn.simpleicons.org/confluent/0066CC' },
+    { name: 'MLflow', logo: 'https://cdn.simpleicons.org/mlflow/0194E2' },
+    { name: 'Kubeflow', logo: 'https://cdn.simpleicons.org/kubeflow/326CE5' },
   ];
 
-  const tools = [
-    { name: 'Git', logo: 'https://cdn.simpleicons.org/git/F05032' },
-    { name: 'GitHub', logo: 'https://cdn.simpleicons.org/github/181717' },
-    { name: 'Docker', logo: 'https://cdn.simpleicons.org/docker/2496ED' },
-    { name: 'Kubernetes', logo: 'https://cdn.simpleicons.org/kubernetes/326CE5' },
+  const cloudPlatforms = [
     { name: 'AWS', logo: 'https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/amazonwebservices/amazonwebservices-original.svg' },
     { name: 'Azure', logo: 'https://cdn.jsdelivr.net/npm/devicon@2.15.1/icons/azure/azure-original.svg' },
     { name: 'GCP', logo: 'https://cdn.simpleicons.org/googlecloud/4285F4' },
-    { name: 'MySQL', logo: 'https://cdn.simpleicons.org/mysql/4479A1' },
+    { name: 'AWS Redshift', logo: 'https://cdn.simpleicons.org/amazonredshift/8C4FFF' },
+    { name: 'AWS Glue', logo: 'https://cdn.simpleicons.org/amazonaws/FF9900' },
+    { name: 'AWS Kinesis', logo: 'https://cdn.simpleicons.org/amazonaws/FF9900' },
+    { name: 'Azure Synapse', logo: 'https://cdn.simpleicons.org/microsoftazure/0078D4' },
+    { name: 'BigQuery', logo: 'https://cdn.simpleicons.org/googlebigquery/669DF6' },
+    { name: 'Cloud Dataflow', logo: 'https://cdn.simpleicons.org/googlecloud/4285F4' },
+    { name: 'Azure Data Factory', logo: 'https://cdn.simpleicons.org/microsoftazure/0078D4' },
+  ];
+
+  const databases = [
     { name: 'PostgreSQL', logo: 'https://cdn.simpleicons.org/postgresql/4169E1' },
     { name: 'MongoDB', logo: 'https://cdn.simpleicons.org/mongodb/47A248' },
     { name: 'Redis', logo: 'https://cdn.simpleicons.org/redis/DC382D' },
+    { name: 'Cassandra', logo: 'https://cdn.simpleicons.org/apachecassandra/1287B1' },
+    { name: 'Elasticsearch', logo: 'https://cdn.simpleicons.org/elasticsearch/005571' },
+    { name: 'Neo4j', logo: 'https://cdn.simpleicons.org/neo4j/008CC1' },
+    { name: 'InfluxDB', logo: 'https://cdn.simpleicons.org/influxdb/22ADF6' },
+    { name: 'Amazon DynamoDB', logo: 'https://cdn.simpleicons.org/amazondynamodb/4053D6' },
+    { name: 'Azure Cosmos DB', logo: 'https://cdn.simpleicons.org/microsoftazure/0078D4' },
+  ];
+
+  const devopsTools = [
+    { name: 'Docker', logo: 'https://cdn.simpleicons.org/docker/2496ED' },
+    { name: 'Kubernetes', logo: 'https://cdn.simpleicons.org/kubernetes/326CE5' },
+    { name: 'Terraform', logo: 'https://cdn.simpleicons.org/terraform/623CE4' },
+    { name: 'Jenkins', logo: 'https://cdn.simpleicons.org/jenkins/D24939' },
+    { name: 'GitLab CI', logo: 'https://cdn.simpleicons.org/gitlab/FC6D26' },
+    { name: 'GitHub Actions', logo: 'https://cdn.simpleicons.org/githubactions/2088FF' },
+    { name: 'Ansible', logo: 'https://cdn.simpleicons.org/ansible/EE0000' },
+    { name: 'Prometheus', logo: 'https://cdn.simpleicons.org/prometheus/E6522C' },
+    { name: 'Grafana', logo: 'https://cdn.simpleicons.org/grafana/F46800' },
   ];
 
   return (
@@ -192,7 +220,7 @@ const Skills = memo(function Skills({ categories }: SkillsProps) {
               </svg>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white text-center md:text-left">
-              Technologies
+              Big Data & Analytics Technologies
             </h3>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
@@ -213,7 +241,7 @@ const Skills = memo(function Skills({ categories }: SkillsProps) {
           </div>
         </div>
 
-        {/* Tools Section */}
+        {/* Cloud Platforms Section */}
         <div>
           <div className="flex flex-col md:flex-row items-center justify-center md:justify-start mb-6 sm:mb-8">
             <div className="logo-3d mb-4 md:mb-0 md:mr-4">
@@ -223,18 +251,114 @@ const Skills = memo(function Skills({ categories }: SkillsProps) {
                 viewBox="0 0 100 100" 
                 className="w-12 h-12 sm:w-16 sm:h-16"
                 role="img"
-                aria-label="Tools represented by a gear icon"
+                aria-label="Cloud platforms represented by a cloud icon"
               >
                 <defs>
-                  <linearGradient id="gearGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#ff9a9e" />
-                    <stop offset="50%" stopColor="#fecfef" />
-                    <stop offset="100%" stopColor="#fecfef" />
+                  <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#4285F4" />
+                    <stop offset="33%" stopColor="#FF9900" />
+                    <stop offset="66%" stopColor="#0078D4" />
+                    <stop offset="100%" stopColor="#34A853" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="50" cy="45" rx="25" ry="15" fill="url(#cloudGradient)" />
+                <ellipse cx="35" cy="50" rx="15" ry="10" fill="url(#cloudGradient)" />
+                <ellipse cx="65" cy="50" rx="15" ry="10" fill="url(#cloudGradient)" />
+                <ellipse cx="50" cy="55" rx="30" ry="12" fill="url(#cloudGradient)" />
+              </svg>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white text-center md:text-left">
+              Cloud Platforms
+            </h3>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+            {cloudPlatforms.map((platform, index) => (
+              <div key={index} className="glass-card rounded-xl p-3 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
+                <img
+                  src={platform.logo}
+                  alt={`${platform.name} logo`}
+                  className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2"
+                  loading="lazy"
+                  style={{ objectFit: 'contain' }}
+                />
+                <span className="text-slate-700 dark:text-slate-300 font-medium text-xs sm:text-sm leading-tight">
+                  {platform.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Databases Section */}
+        <div className="mt-20">
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start mb-6 sm:mb-8">
+            <div className="logo-3d mb-4 md:mb-0 md:mr-4">
+              <svg 
+                width="60" 
+                height="60" 
+                viewBox="0 0 100 100" 
+                className="w-12 h-12 sm:w-16 sm:h-16"
+                role="img"
+                aria-label="Databases represented by a database icon"
+              >
+                <defs>
+                  <linearGradient id="dbGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#336791" />
+                    <stop offset="50%" stopColor="#47A248" />
+                    <stop offset="100%" stopColor="#DC382D" />
+                  </linearGradient>
+                </defs>
+                <ellipse cx="50" cy="25" rx="30" ry="8" fill="url(#dbGradient)" />
+                <rect x="20" y="25" width="60" height="30" fill="url(#dbGradient)" />
+                <ellipse cx="50" cy="55" rx="30" ry="8" fill="url(#dbGradient)" />
+                <ellipse cx="50" cy="75" rx="30" ry="8" fill="url(#dbGradient)" />
+                <rect x="20" y="55" width="60" height="20" fill="url(#dbGradient)" />
+              </svg>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white text-center md:text-left">
+              Databases & Storage
+            </h3>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+            {databases.map((db, index) => (
+              <div key={index} className="glass-card rounded-xl p-3 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
+                <img
+                  src={db.logo}
+                  alt={`${db.name} logo`}
+                  className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2"
+                  loading="lazy"
+                  style={{ objectFit: 'contain' }}
+                />
+                <span className="text-slate-700 dark:text-slate-300 font-medium text-xs sm:text-sm leading-tight">
+                  {db.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* DevOps & Infrastructure Section */}
+        <div className="mt-20">
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start mb-6 sm:mb-8">
+            <div className="logo-3d mb-4 md:mb-0 md:mr-4">
+              <svg 
+                width="60" 
+                height="60" 
+                viewBox="0 0 100 100" 
+                className="w-12 h-12 sm:w-16 sm:h-16"
+                role="img"
+                aria-label="DevOps tools represented by a gear icon"
+              >
+                <defs>
+                  <linearGradient id="devopsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#2496ED" />
+                    <stop offset="50%" stopColor="#326CE5" />
+                    <stop offset="100%" stopColor="#623CE4" />
                   </linearGradient>
                 </defs>
                 <path 
                   d="M50 10 L55 20 L60 10 L65 20 L70 15 L75 25 L80 20 L85 30 L80 35 L85 40 L80 50 L85 60 L80 65 L85 70 L75 75 L70 85 L65 80 L60 90 L55 80 L50 90 L45 80 L40 90 L35 80 L30 85 L25 75 L15 70 L20 65 L15 60 L20 50 L15 40 L20 35 L15 30 L25 25 L30 15 L35 20 L40 10 L45 20 Z" 
-                  fill="url(#gearGradient)" 
+                  fill="url(#devopsGradient)" 
                   className="animate-spin-slow"
                 />
                 <circle cx="50" cy="50" r="15" fill="rgba(255,255,255,0.9)" />
@@ -242,11 +366,11 @@ const Skills = memo(function Skills({ categories }: SkillsProps) {
               </svg>
             </div>
             <h3 className="text-xl sm:text-2xl font-bold text-slate-800 dark:text-white text-center md:text-left">
-              Tools
+              DevOps & Infrastructure
             </h3>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
-            {tools.map((tool, index) => (
+            {devopsTools.map((tool, index) => (
               <div key={index} className="glass-card rounded-xl p-3 sm:p-4 shadow-md hover:shadow-lg transition-all duration-200 transform hover:scale-105 text-center flex flex-col items-center justify-center min-h-[100px] sm:min-h-[120px]">
                 <img
                   src={tool.logo}
