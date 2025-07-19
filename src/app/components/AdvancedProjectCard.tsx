@@ -34,29 +34,33 @@ const AdvancedProjectCard = memo(function AdvancedProjectCard({ project, index }
 
     // Optimized entrance animation with reduced complexity
     const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: card,
-        start: "top 85%",
-        toggleActions: "play none none reverse",
-        once: true // Only animate once for better performance
-      }
+     scrollTrigger: {
+  trigger: card,
+  start: "top 95%", // starts earlier in viewport
+  toggleActions: "play none none reverse",
+  once: true,
+}
+
     });
 
-    tl.fromTo(card,
-      { 
-        opacity: 0, 
-        y: 60,
-        scale: 0.95
-      },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.8,
-        delay: index * 0.1, // Reduced stagger delay
-        ease: "power2.out"
-      }
-    );
+tl.fromTo(
+  card,
+  {
+    opacity: 0,
+    y: 100, // more pronounced drop
+    scale: 0.9, // shrink in
+  },
+  {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    duration: 1.2, // longer duration
+    delay: index * 0.15, // slightly slower cascade
+    ease: "power3.out", // smoother easing
+  }
+);
+
+
 
     // Simplified hover effects for better performance
     let hoverTween: gsap.core.Tween | null = null;

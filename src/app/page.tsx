@@ -92,7 +92,207 @@ async function getPortfolioData() {
       architecture: "Hybrid graph processing with both OLTP and OLAP capabilities",
       metrics: "Billion+ nodes processed, <100ms query response, 95% fraud detection accuracy",
       challenges: "Graph partitioning, query optimization, real-time updates"
-    }
+    },
+    {
+    title: "Real-Time Fraud Detection Pipeline with Kafka & Flink",
+    description: "Build an end-to-end real-time fraud detection system that processes millions of financial transactions per second. Implement ML-based anomaly detection with sub-100ms latency for immediate fraud prevention.",
+    tech: ["Apache Kafka", "Apache Flink", "Redis", "Elasticsearch", "Docker", "Kubernetes", "Python", "Cassandra", "Grafana"],
+    image: "/images/projects/fraud-detection.jpg",
+    liveUrl: "https://fraud-detection-demo.example.com",
+    githubUrl: "https://github.com/your-username/realtime-fraud-detection",
+    architecture: "Event-driven microservices with stream processing",
+    metrics: "Processing 1M+ transactions/sec with <50ms latency"
+  },
+  {
+    title: "Multi-Cloud Data Lakehouse Migration Platform",
+    description: "Develop a comprehensive migration platform for moving legacy data warehouses to modern lakehouse architecture across AWS, Azure, and GCP. Includes automated schema conversion and data lineage tracking.",
+    tech: ["Apache Iceberg", "Delta Lake", "Databricks", "AWS Glue", "Azure Data Factory", "BigQuery", "Terraform", "dbt", "Apache Airflow"],
+    image: "/images/projects/data-lakehouse.jpg",
+    liveUrl: "https://lakehouse-migration.example.com",
+    githubUrl: "https://github.com/your-username/multicloud-lakehouse",
+    architecture: "Hybrid multi-cloud with unified metadata layer",
+    metrics: "Migrated 500TB+ data with 99.9% accuracy"
+  },
+  {
+    title: "MLOps Pipeline with Real-Time Feature Store",
+    description: "Create an enterprise-grade MLOps platform with real-time feature engineering, automated model training, A/B testing, and drift detection. Supports both batch and streaming ML workloads.",
+    tech: ["MLflow", "Feast", "Kubeflow", "Apache Spark", "Kafka", "Ray", "TensorFlow", "PyTorch", "Kubernetes", "Prometheus"],
+    image: "/images/projects/mlops-pipeline.jpg",
+    liveUrl: "https://mlops-platform.example.com",
+    githubUrl: "https://github.com/your-username/enterprise-mlops",
+    architecture: "Microservices-based ML platform with event-driven workflows",
+    metrics: "Deploy models in <10 minutes with 99.95% uptime"
+  },
+  {
+    title: "Real-Time IoT Data Processing at Scale",
+    description: "Build a massive-scale IoT data processing system handling sensor data from millions of devices. Implements edge computing, real-time analytics, and predictive maintenance algorithms.",
+    tech: ["Apache Kafka", "Apache Beam", "InfluxDB", "TimescaleDB", "Edge Computing", "MQTT", "Apache NiFi", "Grafana", "TensorFlow Lite"],
+    image: "/images/projects/iot-processing.jpg",
+    liveUrl: "https://iot-analytics.example.com",
+    githubUrl: "https://github.com/your-username/iot-data-platform",
+    architecture: "Edge-to-cloud streaming with time-series optimization",
+    metrics: "Processing 10M+ sensor readings/sec globally"
+  },
+  {
+    title: "CDC-Based Real-Time Data Synchronization",
+    description: "Implement a Change Data Capture system for real-time synchronization between multiple databases and data warehouses. Ensures ACID compliance and handles schema evolution automatically.",
+    tech: ["Debezium", "Apache Kafka", "PostgreSQL", "MongoDB", "Snowflake", "Apache Kafka Connect", "Schema Registry", "Apache Avro"],
+    image: "/images/projects/cdc-sync.jpg",
+    liveUrl: "https://cdc-platform.example.com",
+    githubUrl: "https://github.com/your-username/realtime-cdc",
+    architecture: "Event-sourcing with distributed transaction management",
+    metrics: "Zero-downtime sync with <2 sec replication lag"
+  },
+  {
+    title: "Cloud Cost Optimization Analytics Platform",
+    description: "Develop a comprehensive cloud cost analytics platform that processes billing data from multiple cloud providers, identifies optimization opportunities, and automates cost-saving actions.",
+    tech: ["Apache Spark", "Elasticsearch", "Kibana", "AWS Cost Explorer API", "Azure Billing API", "GCP Billing API", "Apache Airflow", "Python"],
+    image: "/images/projects/cost-optimization.jpg",
+    liveUrl: "https://cost-optimizer.example.com",
+    githubUrl: "https://github.com/your-username/cloud-cost-optimizer",
+    architecture: "Multi-cloud data aggregation with ML-driven recommendations",
+    metrics: "Average 25% cost reduction across client deployments"
+  },
+  {
+    title: "Real-Time Supply Chain Visibility Platform",
+    description: "Create an end-to-end supply chain analytics platform with real-time tracking, demand forecasting, and automated inventory optimization using advanced ML algorithms.",
+    tech: ["Apache Kafka", "Apache Spark Streaming", "Neo4j", "Redis", "Apache Airflow", "Prophet", "XGBoost", "Docker", "Kubernetes"],
+    image: "/images/projects/supply-chain.jpg",
+    liveUrl: "https://supply-chain-viz.example.com",
+    githubUrl: "https://github.com/your-username/supply-chain-platform",
+    architecture: "Graph-based data model with streaming analytics",
+    metrics: "Reduced stockouts by 40% and inventory costs by 15%"
+  },
+  {
+    title: "Streaming ETL with Schema Evolution Support",
+    description: "Build a robust streaming ETL pipeline that automatically handles schema changes, data quality validation, and format conversions across different data sources and targets.",
+    tech: ["Apache Kafka", "Apache Flink", "Confluent Schema Registry", "Apache Avro", "Delta Lake", "Great Expectations", "dbt", "Snowflake"],
+    image: "/images/projects/streaming-etl.jpg",
+    liveUrl: "https://streaming-etl.example.com",
+    githubUrl: "https://github.com/your-username/streaming-etl-platform",
+    architecture: "Schema-aware streaming with automated data quality checks",
+    metrics: "99.99% data accuracy with automatic schema migration"
+  },
+  {
+    title: "Real-Time Personalization Engine",
+    description: "Develop a high-performance personalization engine for e-commerce that processes user behavior in real-time and delivers personalized recommendations with microsecond latency.",
+    tech: ["Apache Kafka", "Apache Flink", "Redis", "Cassandra", "TensorFlow Serving", "Kubernetes", "gRPC", "Apache Pinot", "Grafana"],
+    image: "/images/projects/personalization.jpg",
+    liveUrl: "https://personalization-engine.example.com",
+    githubUrl: "https://github.com/your-username/realtime-personalization",
+    architecture: "Event-driven microservices with real-time ML serving",
+    metrics: "Sub-millisecond response time with 35% CTR improvement"
+  },
+  {
+    title: "Multi-Source Data Quality Observatory",
+    description: "Create a comprehensive data quality monitoring system that continuously validates data across multiple sources, detects anomalies, and provides automated data lineage tracking.",
+    tech: ["Apache Spark", "Great Expectations", "Apache Atlas", "Elasticsearch", "Apache Airflow", "Python", "SQL", "Grafana", "PostgreSQL"],
+    image: "/images/projects/data-quality.jpg",
+    liveUrl: "https://data-observatory.example.com",
+    githubUrl: "https://github.com/your-username/data-quality-observatory",
+    architecture: "Microservices with event-driven data quality checks",
+    metrics: "Monitor 1000+ data sources with 99.9% accuracy"
+  },
+  {
+    title: "Serverless Data Lake Analytics Platform",
+    description: "Build a fully serverless data analytics platform using cloud-native services for automatic scaling, cost optimization, and simplified data lake management.",
+    tech: ["AWS Lambda", "AWS Glue", "Amazon Athena", "S3", "AWS Step Functions", "Apache Iceberg", "Terraform", "CloudFormation", "Python"],
+    image: "/images/projects/serverless-analytics.jpg",
+    liveUrl: "https://serverless-analytics.example.com",
+    githubUrl: "https://github.com/your-username/serverless-data-lake",
+    architecture: "Fully serverless with event-driven processing",
+    metrics: "80% cost reduction with auto-scaling capabilities"
+  },
+  {
+    title: "Real-Time Trading Data Pipeline",
+    description: "Develop a high-frequency trading data pipeline that processes market data streams, calculates technical indicators, and executes algorithmic trading strategies in real-time.",
+    tech: ["Apache Kafka", "Apache Flink", "ClickHouse", "Redis", "WebSocket", "Python", "C++", "Kubernetes", "Prometheus", "Grafana"],
+    image: "/images/projects/trading-pipeline.jpg",
+    liveUrl: "https://trading-platform.example.com",
+    githubUrl: "https://github.com/your-username/trading-data-pipeline",
+    architecture: "Ultra-low latency stream processing with FPGA acceleration",
+    metrics: "Sub-microsecond latency with 99.999% uptime"
+  },
+  {
+    title: "Compliance and Audit Data Platform",
+    description: "Create an enterprise compliance platform that automatically tracks data lineage, ensures GDPR/CCPA compliance, and generates audit reports across all data operations.",
+    tech: ["Apache Atlas", "Apache Ranger", "Elasticsearch", "Apache Kafka", "Apache Airflow", "PostgreSQL", "Docker", "Kubernetes", "Python"],
+    image: "/images/projects/compliance-platform.jpg",
+    liveUrl: "https://compliance-audit.example.com",
+    githubUrl: "https://github.com/your-username/compliance-data-platform",
+    architecture: "Policy-driven data governance with automated compliance checks",
+    metrics: "100% audit trail coverage with automated compliance scoring"
+  },
+  {
+    title: "Edge-to-Cloud ML Pipeline",
+    description: "Build a distributed ML pipeline that trains models on edge devices, aggregates insights in the cloud, and deploys updated models back to edge locations for continuous learning.",
+    tech: ["Apache Kafka", "TensorFlow Lite", "Kubernetes", "Apache Spark", "MLflow", "Redis", "gRPC", "Edge Computing", "Federated Learning"],
+    image: "/images/projects/edge-ml.jpg",
+    liveUrl: "https://edge-ml-platform.example.com",
+    githubUrl: "https://github.com/your-username/edge-ml-pipeline",
+    architecture: "Federated learning with edge-cloud hybrid deployment",
+    metrics: "Deployed across 1000+ edge locations with 95% accuracy"
+  },
+  {
+    title: "Real-Time Social Media Analytics",
+    description: "Develop a comprehensive social media analytics platform that processes millions of posts, performs sentiment analysis, and tracks trending topics with real-time dashboards.",
+    tech: ["Apache Kafka", "Apache Spark Streaming", "Elasticsearch", "Apache NiFi", "Neo4j", "Python", "NLP Libraries", "Kibana", "Docker"],
+    image: "/images/projects/social-analytics.jpg",
+    liveUrl: "https://social-analytics.example.com",
+    githubUrl: "https://github.com/your-username/social-media-analytics",
+    architecture: "Stream processing with graph analytics and NLP",
+    metrics: "Process 10M+ social posts daily with real-time insights"
+  },
+  {
+    title: "Automated Data Mesh Implementation",
+    description: "Implement a data mesh architecture with automated domain data product creation, federated governance, and self-serve analytics capabilities for enterprise organizations.",
+    tech: ["Apache Iceberg", "dbt", "Apache Airflow", "Kubernetes", "Apache Kafka", "Snowflake", "Terraform", "DataHub", "Python"],
+    image: "/images/projects/data-mesh.jpg",
+    liveUrl: "https://data-mesh-platform.example.com",
+    githubUrl: "https://github.com/your-username/automated-data-mesh",
+    architecture: "Decentralized data architecture with federated governance",
+    metrics: "Reduced time-to-insight by 70% across 50+ domains"
+  },
+  {
+    title: "Cross-Cloud Disaster Recovery System",
+    description: "Create an automated disaster recovery system that replicates critical data across multiple cloud providers and automatically failovers applications with zero data loss.",
+    tech: ["Apache Kafka", "Debezium", "Terraform", "Ansible", "Docker", "Kubernetes", "PostgreSQL", "MongoDB", "Cloud APIs"],
+    image: "/images/projects/disaster-recovery.jpg",
+    liveUrl: "https://dr-platform.example.com",
+    githubUrl: "https://github.com/your-username/cross-cloud-dr",
+    architecture: "Multi-cloud with automated failover and data replication",
+    metrics: "RTO < 5 minutes, RPO < 30 seconds across clouds"
+  },
+  {
+    title: "Real-Time Healthcare Data Integration",
+    description: "Build a HIPAA-compliant healthcare data integration platform that processes patient data from multiple sources, enables real-time clinical decision support, and maintains data privacy.",
+    tech: ["Apache Kafka", "FHIR", "Apache Spark", "Elasticsearch", "PostgreSQL", "Docker", "Kubernetes", "Python", "HL7", "Encryption"],
+    image: "/images/projects/healthcare-integration.jpg",
+    liveUrl: "https://healthcare-data.example.com",
+    githubUrl: "https://github.com/your-username/healthcare-data-platform",
+    architecture: "HIPAA-compliant with end-to-end encryption and audit logging",
+    metrics: "Process 1M+ patient records daily with 99.99% availability"
+  },
+  {
+    title: "Automated ML Model Lifecycle Management",
+    description: "Develop an end-to-end ML model lifecycle management platform with automated training, validation, deployment, monitoring, and retraining based on performance metrics.",
+    tech: ["MLflow", "Kubeflow", "Apache Airflow", "Prometheus", "Grafana", "TensorFlow", "PyTorch", "Kubernetes", "Docker", "Python"],
+    image: "/images/projects/ml-lifecycle.jpg",
+    liveUrl: "https://ml-lifecycle.example.com",
+    githubUrl: "https://github.com/your-username/ml-lifecycle-platform",
+    architecture: "Event-driven ML ops with automated model governance",
+    metrics: "Manage 500+ models with 90% automated decision making"
+  },
+  {
+    title: "Real-Time Energy Grid Analytics",
+    description: "Create a smart grid analytics platform that processes real-time energy consumption data, predicts demand patterns, and optimizes energy distribution across the power grid.",
+    tech: ["Apache Kafka", "Apache Flink", "InfluxDB", "TimescaleDB", "Apache Spark", "TensorFlow", "Grafana", "Kubernetes", "MQTT"],
+    image: "/images/projects/energy-analytics.jpg",
+    liveUrl: "https://energy-grid-analytics.example.com",
+    githubUrl: "https://github.com/your-username/energy-grid-platform",
+    architecture: "Time-series focused with real-time demand forecasting",
+    metrics: "Monitor 10,000+ grid points with 15% efficiency improvement"
+  }
   ];
 
   // Comprehensive skill categories based on data engineering roadmaps
@@ -196,9 +396,9 @@ async function getPortfolioData() {
   ];
 
   const contactInfo = {
-    email: "manojkumar2004@zoho.in",
-    location: "Bangalore, India",
-    phone: "+91 9876543210",
+    email: "manojkumar9384@outlook.com",
+    location: "Tamil Nadu, India",
+    phone: "+91 7826807488",
     linkedin: "https://linkedin.com/in/manojkumartechie",
     github: "https://github.com/manojkumartechie"
   };
